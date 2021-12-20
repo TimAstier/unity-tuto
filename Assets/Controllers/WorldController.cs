@@ -12,8 +12,8 @@ public class WorldController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
+    // Create a world with empty tiles
     world = new World();
-    world.RandomizeTiles();
 
     for (int x = 0; x < world.Width; x++)
     {
@@ -23,20 +23,41 @@ public class WorldController : MonoBehaviour
         GameObject tile_go = new GameObject();
         tile_go.name = "Tile_" + x + "_" + y;
         tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
-
-        SpriteRenderer tile_sr = tile_go.AddComponent<SpriteRenderer>();
-
-        if (tile_data.Type == Tile.TileType.Floor)
-        {
-          tile_sr.sprite = floorSprite;
-        }
+        // We add a sprite renderer, but no need to set a sprite
+        // because all tiles are empty for now. 
+        tile_go.AddComponent<SpriteRenderer>();
       }
     }
+    world.RandomizeTiles();
   }
+
+  float randomizeTileTimer = 2f;
 
   // Update is called once per frame
   void Update()
   {
+    randomizeTileTimer -= Time.deltaTime;
 
+    if (randomizeTileTimer < 0)
+    {
+      world.RandomizeTiles();
+      randomizeTileTimer = 2f;
+    }
+  }
+
+  void OnTileTypeChanged(Tile tile_data, GameObject tile_go)
+  {
+    if (tile_data.Type == Tile.TileType.Floor)
+    {
+      tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
+    }
+    else if (tile_data.Type == Tile.TileType.Empty)
+    {
+      tile_go.GetComponent<SpriteRenderer>().sprite = null;
+    }
+    else
+    {
+      Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
+    }
   }
 }

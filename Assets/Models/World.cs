@@ -45,7 +45,7 @@ public class World
 
   public void RandomizeTiles()
   {
-
+    Debug.Log("RandomizeTiles");
     for (int x = 0; x < width; x++)
     {
       for (int y = 0; y < height; y++)

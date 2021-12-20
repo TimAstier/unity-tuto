@@ -17,6 +17,7 @@ public class Tile
     set
     {
       type = value;
+      // Call the callback and let know about the change.
     }
   }
 
