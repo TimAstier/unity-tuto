@@ -68,4 +68,19 @@ public class Tile {
     cbTileTypeChanged -= callback;
   }
 
+  public bool PlaceObject(InstalledObject objectInstance) {
+    if (objectInstance == null) {
+      installedObject = null;
+      return true;
+    }
+
+    if (installedObject != null) {
+      Debug.LogError("Trying to assign an installed object to a tile that already has one.");
+      return false;
+    }
+
+    installedObject = objectInstance;
+    return true;
+  }
+
 }

@@ -3,13 +3,15 @@
 //		http://quill18.com
 //=======================================================================
 
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class World {
 
   // A two-dimensional array to hold our tile data.
   Tile[,] tiles;
+
+  Dictionary<string, InstalledObject> installedObjectPrototypes;
 
   // The tile width of the world.
   public int Width { get; protected set; }
@@ -35,6 +37,18 @@ public class World {
     }
 
     Debug.Log("World created with " + (Width * Height) + " tiles.");
+
+    CreateInstalledObjectPrototypes();
+  }
+
+  void CreateInstalledObjectPrototypes() {
+    installedObjectPrototypes = new Dictionary<string, InstalledObject>();
+    installedObjectPrototypes.Add("Wall", InstalledObject.CreatePrototype(
+      "Wall",
+      0,
+      1,
+      1
+    ));
   }
 
   /// <summary>
