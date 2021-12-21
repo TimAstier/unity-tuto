@@ -3,12 +3,11 @@
 //		http://quill18.com
 //=======================================================================
 
-using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
+using UnityEngine;
 
-public class Tile
-{
+public class Tile {
 
   // TileType is the base type of the tile. In some tile-based games, that might be
   // the terrain type. For us, we only need to differentiate between empty space
@@ -17,11 +16,9 @@ public class Tile
   public enum TileType { Empty, Floor };
 
   private TileType _type = TileType.Empty;
-  public TileType Type
-  {
+  public TileType Type {
     get { return _type; }
-    set
-    {
+    set {
       TileType oldType = _type;
       _type = value;
       // Call the callback and let things know we've changed.
@@ -51,8 +48,7 @@ public class Tile
   /// <param name="world">A World instance.</param>
   /// <param name="x">The x coordinate.</param>
   /// <param name="y">The y coordinate.</param>
-  public Tile(World world, int x, int y)
-  {
+  public Tile(World world, int x, int y) {
     this.world = world;
     this.X = x;
     this.Y = y;
@@ -61,16 +57,14 @@ public class Tile
   /// <summary>
   /// Register a function to be called back when our tile type changes.
   /// </summary>
-  public void RegisterTileTypeChangedCallback(Action<Tile> callback)
-  {
+  public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
     cbTileTypeChanged += callback;
   }
 
   /// <summary>
   /// Unregister a callback.
   /// </summary>
-  public void UnegisterTileTypeChangedCallback(Action<Tile> callback)
-  {
+  public void UnegisterTileTypeChangedCallback(Action<Tile> callback) {
     cbTileTypeChanged -= callback;
   }
 
