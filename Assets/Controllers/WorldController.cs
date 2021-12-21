@@ -8,6 +8,7 @@ using System.Collections;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour {
+
   public static WorldController Instance { get; protected set; }
 
   // The only tile sprite we have right now, so this
@@ -70,5 +71,18 @@ public class WorldController : MonoBehaviour {
 
 
   }
+
+  /// <summary>
+  /// Gets the tile at the unity-space coordinates
+  /// </summary>
+  /// <returns>The tile at world coordinate.</returns>
+  /// <param name="coord">Unity World-Space coordinates.</param>
+  public Tile GetTileAtWorldCoord(Vector3 coord) {
+    int x = Mathf.FloorToInt(coord.x);
+    int y = Mathf.FloorToInt(coord.y);
+
+    return World.GetTileAt(x, y);
+  }
+
 
 }
