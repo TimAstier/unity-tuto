@@ -3,11 +3,10 @@
 //		http://quill18.com
 //=======================================================================
 
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class World
-{
+public class World {
 
   // A two-dimensional array to hold our tile data.
   Tile[,] tiles;
@@ -23,17 +22,14 @@ public class World
   /// </summary>
   /// <param name="width">Width in tiles.</param>
   /// <param name="height">Height in tiles.</param>
-  public World(int width = 100, int height = 100)
-  {
+  public World(int width = 100, int height = 100) {
     Width = width;
     Height = height;
 
     tiles = new Tile[Width, Height];
 
-    for (int x = 0; x < Width; x++)
-    {
-      for (int y = 0; y < Height; y++)
-      {
+    for (int x = 0; x < Width; x++) {
+      for (int y = 0; y < Height; y++) {
         tiles[x, y] = new Tile(this, x, y);
       }
     }
@@ -44,21 +40,15 @@ public class World
   /// <summary>
   /// A function for testing out the system
   /// </summary>
-  public void RandomizeTiles()
-  {
+  public void RandomizeTiles() {
     Debug.Log("RandomizeTiles");
-    for (int x = 0; x < Width; x++)
-    {
-      for (int y = 0; y < Height; y++)
-      {
+    for (int x = 0; x < Width; x++) {
+      for (int y = 0; y < Height; y++) {
 
-        if (Random.Range(0, 2) == 0)
-        {
-          tiles[x, y].Type = Tile.TileType.Empty;
-        }
-        else
-        {
-          tiles[x, y].Type = Tile.TileType.Floor;
+        if (Random.Range(0, 2) == 0) {
+          tiles[x, y].Type = TileType.Empty;
+        } else {
+          tiles[x, y].Type = TileType.Floor;
         }
 
       }
@@ -71,10 +61,8 @@ public class World
   /// <returns>The <see cref="Tile"/>.</returns>
   /// <param name="x">The x coordinate.</param>
   /// <param name="y">The y coordinate.</param>
-  public Tile GetTileAt(int x, int y)
-  {
-    if (x > Width || x < 0 || y > Height || y < 0)
-    {
+  public Tile GetTileAt(int x, int y) {
+    if (x > Width || x < 0 || y > Height || y < 0) {
       Debug.LogError("Tile (" + x + "," + y + ") is out of range.");
       return null;
     }

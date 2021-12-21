@@ -7,13 +7,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Tile {
+// TileType is the base type of the tile. In some tile-based games, that might be
+// the terrain type. For us, we only need to differentiate between empty space
+// and floor (a.k.a. the station structure/scaffold). Walls/Doors/etc... will be
+// InstalledObjects sitting on top of the floor.
+public enum TileType { Empty, Floor };
 
-  // TileType is the base type of the tile. In some tile-based games, that might be
-  // the terrain type. For us, we only need to differentiate between empty space
-  // and floor (a.k.a. the station structure/scaffold). Walls/Doors/etc... will be
-  // InstalledObjects sitting on top of the floor.
-  public enum TileType { Empty, Floor };
+public class Tile {
 
   private TileType _type = TileType.Empty;
   public TileType Type {
@@ -64,7 +64,7 @@ public class Tile {
   /// <summary>
   /// Unregister a callback.
   /// </summary>
-  public void UnegisterTileTypeChangedCallback(Action<Tile> callback) {
+  public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
     cbTileTypeChanged -= callback;
   }
 

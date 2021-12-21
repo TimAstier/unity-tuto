@@ -4,7 +4,8 @@
 //=======================================================================
 
 
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour {
@@ -14,6 +15,8 @@ public class WorldController : MonoBehaviour {
   // The only tile sprite we have right now, so this
   // it a pretty simple way to handle it.
   public Sprite floorSprite;
+
+  Dictionary<Tile, GameObject> tileGameObjectMap;
 
   // The world and tile data
   public World World { get; protected set; }
@@ -28,6 +31,9 @@ public class WorldController : MonoBehaviour {
     // Create a world with Empty tiles
     World = new World();
 
+    // Instantiate our dictionary that track which GameObjectis rendering  which tile data.
+    tileGameObjectMap = new Dictionary<Tile, GameObject>();
+
     // Create a GameObject for each of our tiles, so they show visually. (and redunt reduntantly)
     for (int x = 0; x < World.Width; x++) {
       for (int y = 0; y < World.Height; y++) {
@@ -36,6 +42,10 @@ public class WorldController : MonoBehaviour {
 
         // This creates a new GameObject and adds it to our scene.
         GameObject tile_go = new GameObject();
+
+        // Add our tile/GO to the dictionary 
+        tileGameObjectMap.Add(tile_data, tile_go);
+
         tile_go.name = "Tile_" + x + "_" + y;
         tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
         tile_go.transform.SetParent(this.transform, true);
@@ -44,8 +54,8 @@ public class WorldController : MonoBehaviour {
         // because all the tiles are empty right now.
         tile_go.AddComponent<SpriteRenderer>();
 
-        // Use a lambda to create an anonymous function to "wrap" our callback function
-        tile_data.RegisterTileTypeChangedCallback((tile) => { OnTileTypeChanged(tile, tile_go); });
+
+        tile_data.RegisterTileTypeChangedCallback(OnTileTypeChanged);
       }
     }
 
@@ -59,11 +69,23 @@ public class WorldController : MonoBehaviour {
   }
 
   // This function should be called automatically whenever a tile's type gets changed.
-  void OnTileTypeChanged(Tile tile_data, GameObject tile_go) {
+  void OnTileTypeChanged(Tile tile_data) {
 
-    if (tile_data.Type == Tile.TileType.Floor) {
+    if (tileGameObjectMap.ContainsKey(tile_data) == false) {
+      Debug.LogError("tileGameObjectMap doesn't contain the tile_data");
+      return;
+    }
+
+    GameObject tile_go = tileGameObjectMap[tile_data];
+
+    if (tile_go == null) {
+      Debug.LogError("tileGameObjectMap's returned GameObject is null");
+      return;
+    }
+
+    if (tile_data.Type == TileType.Floor) {
       tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
-    } else if (tile_data.Type == Tile.TileType.Empty) {
+    } else if (tile_data.Type == TileType.Empty) {
       tile_go.GetComponent<SpriteRenderer>().sprite = null;
     } else {
       Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
