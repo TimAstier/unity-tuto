@@ -26,7 +26,7 @@ public class WorldController : MonoBehaviour {
   public World World { get; protected set; }
 
   // Use this for initialization
-  void Start() {
+  void OnEnable() {
 
     LoadSprites();
 
@@ -61,12 +61,10 @@ public class WorldController : MonoBehaviour {
         tile_go.transform.SetParent(this.transform, true);
 
         tile_go.AddComponent<SpriteRenderer>().sprite = emptySprite;
-
-        // Register our callback so that our GameObject gets updated whenever
-        // the tile's type changes.
-        tile_data.RegisterTileTypeChangedCallback(OnTileTypeChanged);
       }
     }
+
+    World.RegisterTileChanged(OnTileChanged);
 
     // Center the camera
     Camera.main.transform.position = new Vector3(World.Height / 2, World.Width / 2, Camera.main.transform.position.z);
@@ -104,7 +102,7 @@ public class WorldController : MonoBehaviour {
       tileGameObjectMap.Remove(tile_data);
 
       // Unregister the callback!
-      tile_data.UnregisterTileTypeChangedCallback(OnTileTypeChanged);
+      tile_data.UnregisterTileTypeChangedCallback(OnTileChanged);
 
       // Destroy the visual GameObject
       Destroy(tile_go);
@@ -115,7 +113,7 @@ public class WorldController : MonoBehaviour {
   }
 
   // This function should be called automatically whenever a tile's type gets changed.
-  void OnTileTypeChanged(Tile tile_data) {
+  void OnTileChanged(Tile tile_data) {
 
     if (tileGameObjectMap.ContainsKey(tile_data) == false) {
       Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
@@ -134,7 +132,7 @@ public class WorldController : MonoBehaviour {
     } else if (tile_data.Type == TileType.Empty) {
       tile_go.GetComponent<SpriteRenderer>().sprite = null;
     } else {
-      Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
+      Debug.LogError("OnTileChanged - Unrecognized tile type.");
     }
 
 
