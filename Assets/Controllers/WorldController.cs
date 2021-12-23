@@ -15,6 +15,7 @@ public class WorldController : MonoBehaviour {
   // The only tile sprite we have right now, so this
   // it a pretty simple way to handle it.
   public Sprite floorSprite;  // FIXME!
+  public Sprite emptySprite;  // FIXME!
 
   Dictionary<Tile, GameObject> tileGameObjectMap;
   Dictionary<Furniture, GameObject> furnitureGameObjectMap;
@@ -59,9 +60,7 @@ public class WorldController : MonoBehaviour {
         tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
         tile_go.transform.SetParent(this.transform, true);
 
-        // Add a sprite renderer, but don't bother setting a sprite
-        // because all the tiles are empty right now.
-        tile_go.AddComponent<SpriteRenderer>();
+        tile_go.AddComponent<SpriteRenderer>().sprite = emptySprite;
 
         // Register our callback so that our GameObject gets updated whenever
         // the tile's type changes.
@@ -69,8 +68,11 @@ public class WorldController : MonoBehaviour {
       }
     }
 
+    // Center the camera
+    Camera.main.transform.position = new Vector3(World.Height / 2, World.Width / 2, Camera.main.transform.position.z);
+
     // Shake things up, for testing.
-    World.RandomizeTiles();
+    // World.RandomizeTiles();
   }
 
   void LoadSprites() {
