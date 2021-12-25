@@ -91,10 +91,11 @@ public class MouseController : MonoBehaviour {
       // Display a preview of the drag area
       for (int x = start_x; x <= end_x; x++) {
         for (int y = start_y; y <= end_y; y++) {
-          Tile t = WorldController.Instance.World.GetTileAt(x, y);
+          Tile t = WorldController.Instance.world.GetTileAt(x, y);
           if (t != null) {
             // Display the building hint on top of this tile position
             GameObject go = SimplePool.Spawn(circleCursorPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            go.GetComponent<SpriteRenderer>().sortingLayerName = "TileUI";
             go.transform.SetParent(this.transform, true);
             dragPreviewGameObjects.Add(go);
           }
@@ -108,7 +109,7 @@ public class MouseController : MonoBehaviour {
       // Loop through all the tiles
       for (int x = start_x; x <= end_x; x++) {
         for (int y = start_y; y <= end_y; y++) {
-          Tile t = WorldController.Instance.World.GetTileAt(x, y);
+          Tile t = WorldController.Instance.world.GetTileAt(x, y);
 
           if (t != null) {
             if (buildModeIsObjects == true) {
@@ -119,15 +120,15 @@ public class MouseController : MonoBehaviour {
 
               string furnitureType = buildModeObjectType;
 
-              if (WorldController.Instance.World.IsFurniturePlacementValid(furnitureType, t) && t.pendingFurnitureJob == null) {
+              if (WorldController.Instance.world.IsFurniturePlacementValid(furnitureType, t) && t.pendingFurnitureJob == null) {
                 Job j = new Job(t, (Job job) => {
-                  WorldController.Instance.World.PlaceFurniture(furnitureType, job.tile);
+                  WorldController.Instance.world.PlaceFurniture(furnitureType, job.tile);
                   t.pendingFurnitureJob = null;
                 });
                 t.pendingFurnitureJob = j;
                 j.RegisterJobCancelCallback((j) => j.tile.pendingFurnitureJob = null);
-                WorldController.Instance.World.jobQueue.Enqueue(j);
-                Debug.Log("Job Queue Size: " + WorldController.Instance.World.jobQueue.Count);
+                WorldController.Instance.world.jobQueue.Enqueue(j);
+                Debug.Log("Job Queue Size: " + WorldController.Instance.world.jobQueue.Count);
               }
             } else {
               // We are in tile-changing mode.
