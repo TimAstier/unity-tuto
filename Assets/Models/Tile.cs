@@ -35,6 +35,8 @@ public class Tile {
     get; protected set;
   }
 
+  public Job pendingFurnitureJob;
+
   // We need to know the context in which we exist. Probably. Maybe.
   public World world { get; protected set; }
 

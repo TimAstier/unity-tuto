@@ -114,10 +114,21 @@ public class MouseController : MonoBehaviour {
             if (buildModeIsObjects == true) {
               // Create the Furniture and assign it to the tile
 
-              // FIXME: Right now, we're just going to assume walls.
-              WorldController.Instance.World.PlaceFurniture(buildModeObjectType, t);
+              // Instantly place the furniture
+              // WorldController.Instance.World.PlaceFurniture(buildModeObjectType, t);
 
+              string furnitureType = buildModeObjectType;
 
+              if (WorldController.Instance.World.IsFurniturePlacementValid(furnitureType, t) && t.pendingFurnitureJob == null) {
+                Job j = new Job(t, (Job job) => {
+                  WorldController.Instance.World.PlaceFurniture(furnitureType, job.tile);
+                  t.pendingFurnitureJob = null;
+                });
+                t.pendingFurnitureJob = j;
+                j.RegisterJobCancelCallback((j) => j.tile.pendingFurnitureJob = null);
+                WorldController.Instance.World.jobQueue.Enqueue(j);
+                Debug.Log("Job Queue Size: " + WorldController.Instance.World.jobQueue.Count);
+              }
             } else {
               // We are in tile-changing mode.
               t.Type = buildModeTile;

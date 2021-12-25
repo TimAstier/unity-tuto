@@ -56,7 +56,7 @@ public class Furniture {
     obj.width = width;
     obj.height = height;
     obj.linksToNeighbour = linksToNeighbour;
-    obj.funcPositionValidation = obj.IsValidPosition;
+    obj.funcPositionValidation = obj.__IsValidPosition;
 
     return obj;
   }
@@ -129,6 +129,10 @@ public class Furniture {
   }
 
   public bool IsValidPosition(Tile t) {
+    return funcPositionValidation(t);
+  }
+
+  public bool __IsValidPosition(Tile t) {
     if (t.Type != TileType.Floor) {
       return false;
     }
@@ -140,8 +144,8 @@ public class Furniture {
     return true;
   }
 
-  public bool IsValidPosition_Door(Tile t) {
-    if (IsValidPosition(t) == false) {
+  public bool __IsValidPosition_Door(Tile t) {
+    if (__IsValidPosition(t) == false) {
       return false;
     }
     return true;
