@@ -38,14 +38,13 @@ public class BuildModeController : MonoBehaviour {
       string furnitureType = buildModeObjectType;
 
       if (WorldController.Instance.world.IsFurniturePlacementValid(furnitureType, t) && t.pendingFurnitureJob == null) {
-        Job j = new Job(t, (Job job) => {
+        Job j = new Job(t, furnitureType, (Job job) => {
           WorldController.Instance.world.PlaceFurniture(furnitureType, job.tile);
           t.pendingFurnitureJob = null;
         });
         t.pendingFurnitureJob = j;
         j.RegisterJobCancelCallback((j) => j.tile.pendingFurnitureJob = null);
         WorldController.Instance.world.jobQueue.Enqueue(j);
-        Debug.Log("Job Queue Size: " + WorldController.Instance.world.jobQueue.Count);
       }
     } else {
       // We are in tile-changing mode.

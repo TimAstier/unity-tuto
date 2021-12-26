@@ -24,7 +24,7 @@ public class World {
   Action<Furniture> cbFurnitureCreated;
   Action<Tile> cbTileChanged;
 
-  public Queue<Job> jobQueue;
+  public JobQueue jobQueue;
 
   /// <summary>
   /// Initializes a new instance of the <see cref="World"/> class.
@@ -32,7 +32,7 @@ public class World {
   /// <param name="width">Width in tiles.</param>
   /// <param name="height">Height in tiles.</param>
   public World(int width = 100, int height = 100) {
-    jobQueue = new Queue<Job>();
+    jobQueue = new JobQueue();
 
     Width = width;
     Height = height;
@@ -144,5 +144,14 @@ public class World {
 
   public bool IsFurniturePlacementValid(string furnitureType, Tile t) {
     return furniturePrototypes[furnitureType].IsValidPosition(t);
+  }
+
+  public Furniture GetFurniturePrototype(string objectType) {
+    if (furniturePrototypes.ContainsKey(objectType) == false) {
+      Debug.LogError("No prototype for :" + objectType);
+      return null;
+    }
+
+    return furniturePrototypes[objectType];
   }
 }
