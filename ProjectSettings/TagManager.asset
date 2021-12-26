@@ -41,9 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Tiles
+    uniqueID: 1426540485
+    locked: 0
+  - name: Furnitures
+    uniqueID: 2803077455
+    locked: 0
+  - name: Jobs
+    uniqueID: 3830056483
+    locked: 0
+  - name: Characters
+    uniqueID: 3795644475
+    locked: 0
   - name: TileUI
     uniqueID: 3521671753
-    locked: 0
-  - name: MenuUI
-    uniqueID: 4045794093
     locked: 0

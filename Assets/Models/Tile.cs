@@ -14,82 +14,102 @@ using UnityEngine;
 public enum TileType { Empty, Floor };
 
 public class Tile {
-  private TileType _type = TileType.Empty;
-  public TileType Type {
-    get { return _type; }
-    set {
-      TileType oldType = _type;
-      _type = value;
-      // Call the callback and let things know we've changed.
+    private TileType _type = TileType.Empty;
+    public TileType Type {
+        get { return _type; }
+        set {
+            TileType oldType = _type;
+            _type = value;
+            // Call the callback and let things know we've changed.
 
-      if (cbTileChanged != null && oldType != _type)
-        cbTileChanged(this);
-    }
-  }
-
-  // LooseObject is something like a drill or a stack of metal sitting on the floor
-  Inventory inventory;
-
-  // Furniture is something like a wall, door, or sofa.
-  public Furniture furniture {
-    get; protected set;
-  }
-
-  public Job pendingFurnitureJob;
-
-  // We need to know the context in which we exist. Probably. Maybe.
-  public World world { get; protected set; }
-
-  public int X { get; protected set; }
-  public int Y { get; protected set; }
-
-  // The function we callback any time our type changes
-  Action<Tile> cbTileChanged;
-
-  /// <summary>
-  /// Initializes a new instance of the <see cref="Tile"/> class.
-  /// </summary>
-  /// <param name="world">A World instance.</param>
-  /// <param name="x">The x coordinate.</param>
-  /// <param name="y">The y coordinate.</param>
-  public Tile(World world, int x, int y) {
-    this.world = world;
-    this.X = x;
-    this.Y = y;
-  }
-
-  /// <summary>
-  /// Register a function to be called back when our tile type changes.
-  /// </summary>
-  public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
-    cbTileChanged += callback;
-  }
-
-  /// <summary>
-  /// Unregister a callback.
-  /// </summary>
-  public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
-    cbTileChanged -= callback;
-  }
-
-  public bool PlaceFurniture(Furniture objInstance) {
-    if (objInstance == null) {
-      // We are uninstalling whatever was here before.
-      furniture = null;
-      return true;
+            if (cbTileChanged != null && oldType != _type)
+                cbTileChanged(this);
+        }
     }
 
-    // objInstance isn't null
+    // LooseObject is something like a drill or a stack of metal sitting on the floor
+    Inventory inventory;
 
-    if (furniture != null) {
-      Debug.LogError("Trying to assign a furniture to a tile that already has one!");
-      return false;
+    // Furniture is something like a wall, door, or sofa.
+    public Furniture furniture {
+        get; protected set;
     }
 
-    // At this point, everything's fine!
+    public Job pendingFurnitureJob;
 
-    furniture = objInstance;
-    return true;
-  }
+    // We need to know the context in which we exist. Probably. Maybe.
+    public World world { get; protected set; }
+
+    public int X { get; protected set; }
+    public int Y { get; protected set; }
+
+    // The function we callback any time our type changes
+    Action<Tile> cbTileChanged;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Tile"/> class.
+    /// </summary>
+    /// <param name="world">A World instance.</param>
+    /// <param name="x">The x coordinate.</param>
+    /// <param name="y">The y coordinate.</param>
+    public Tile(World world, int x, int y) {
+        this.world = world;
+        this.X = x;
+        this.Y = y;
+    }
+
+    /// <summary>
+    /// Register a function to be called back when our tile type changes.
+    /// </summary>
+    public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
+        cbTileChanged += callback;
+    }
+
+    /// <summary>
+    /// Unregister a callback.
+    /// </summary>
+    public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
+        cbTileChanged -= callback;
+    }
+
+    public bool PlaceFurniture(Furniture objInstance) {
+        if (objInstance == null) {
+            // We are uninstalling whatever was here before.
+            furniture = null;
+            return true;
+        }
+
+        // objInstance isn't null
+
+        if (furniture != null) {
+            Debug.LogError("Trying to assign a furniture to a tile that already has one!");
+            return false;
+        }
+
+        // At this point, everything's fine!
+
+        furniture = objInstance;
+        return true;
+    }
+
+    public bool IsNeighboor(Tile tile, bool diagOkay = false) {
+        if (this.X == tile.X && (this.Y == tile.Y + 1 || this.Y == tile.Y - 1)) {
+            return true;
+        }
+        if (this.Y == tile.Y && (this.X == tile.X + 1 || this.X == tile.X - 1)) {
+            return true;
+        }
+
+        if (diagOkay) {
+            if (this.X == tile.X + 1 && (this.Y == tile.Y + 1 || this.Y == tile.Y - 1)) {
+                return true;
+            }
+            if (this.X == tile.X - 1 && (this.Y == tile.Y + 1 || this.Y == tile.Y - 1)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }
