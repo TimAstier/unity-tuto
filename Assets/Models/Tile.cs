@@ -92,7 +92,7 @@ public class Tile {
         return true;
     }
 
-    public bool IsNeighboor(Tile tile, bool diagOkay = false) {
+    public bool IsNeighbour(Tile tile, bool diagOkay = false) {
         if (this.X == tile.X && (this.Y == tile.Y + 1 || this.Y == tile.Y - 1)) {
             return true;
         }

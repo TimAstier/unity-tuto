@@ -10,36 +10,41 @@ using UnityEngine;
 
 public class WorldController : MonoBehaviour {
 
-  public static WorldController Instance { get; protected set; }
+    public static WorldController Instance { get; protected set; }
 
-  // The world and tile data
-  public World world { get; protected set; }
+    // The world and tile data
+    public World world { get; protected set; }
 
-  // Use this for initialization
-  void OnEnable() {
+    // Use this for initialization
+    void OnEnable() {
 
-    if (Instance != null) {
-      Debug.LogError("There should never be two world controllers.");
+        if (Instance != null) {
+            Debug.LogError("There should never be two world controllers.");
+        }
+
+        Instance = this;
+
+        // Create a world with Empty tiles
+        world = new World();
+
+        // Center the camera
+        Camera.main.transform.position = new Vector3(world.Height / 2, world.Width / 2, Camera.main.transform.position.z);
     }
 
-    Instance = this;
+    void Update() {
+        // TODO: Add pause, unpause, speed control, etc.
+        world.Update(Time.deltaTime);
+    }
 
-    // Create a world with Empty tiles
-    world = new World();
+    /// <summary>
+    /// Gets the tile at the unity-space coordinates
+    /// </summary>
+    /// <returns>The tile at world coordinate.</returns>
+    /// <param name="coord">Unity World-Space coordinates.</param>
+    public Tile GetTileAtWorldCoord(Vector3 coord) {
+        int x = Mathf.FloorToInt(coord.x);
+        int y = Mathf.FloorToInt(coord.y);
 
-    // Center the camera
-    Camera.main.transform.position = new Vector3(world.Height / 2, world.Width / 2, Camera.main.transform.position.z);
-  }
-
-  /// <summary>
-  /// Gets the tile at the unity-space coordinates
-  /// </summary>
-  /// <returns>The tile at world coordinate.</returns>
-  /// <param name="coord">Unity World-Space coordinates.</param>
-  public Tile GetTileAtWorldCoord(Vector3 coord) {
-    int x = Mathf.FloorToInt(coord.x);
-    int y = Mathf.FloorToInt(coord.y);
-
-    return world.GetTileAt(x, y);
-  }
+        return world.GetTileAt(x, y);
+    }
 }
