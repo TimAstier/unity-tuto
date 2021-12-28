@@ -43,6 +43,18 @@ public class Tile {
     public int X { get; protected set; }
     public int Y { get; protected set; }
 
+    public float movementCost {
+        get {
+            if (Type == TileType.Empty) {
+                return 0;
+            }
+            if (furniture == null) {
+                return 1;
+            }
+            return 1 * furniture.movementCost;
+        }
+    }
+
     // The function we callback any time our type changes
     Action<Tile> cbTileChanged;
 
