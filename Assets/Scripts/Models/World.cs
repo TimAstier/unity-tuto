@@ -14,6 +14,8 @@ public class World {
     Tile[,] tiles;
     List<Character> characters;
 
+    Path_TileGraph tileGraph;
+
     Dictionary<string, Furniture> furniturePrototypes;
 
     // The tile width of the world.
@@ -156,6 +158,7 @@ public class World {
 
         if (cbFurnitureCreated != null) {
             cbFurnitureCreated(obj);
+            InvalidateTileGraph();
         }
     }
 
@@ -188,6 +191,11 @@ public class World {
             return;
         }
         cbTileChanged(t);
+        InvalidateTileGraph();
+    }
+
+    public void InvalidateTileGraph() {
+        tileGraph = null;
     }
 
     public bool IsFurniturePlacementValid(string furnitureType, Tile t) {
