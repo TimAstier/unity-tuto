@@ -19,11 +19,11 @@ public class Path_TileGraph {
     for (int x = 0; x < world.Width; x++) {
       for (int y = 0; y < world.Height; y++) {
         Tile t = world.GetTileAt(x, y);
-        if (t.movementCost > 0) {
-          Path_Node<Tile> n = new Path_Node<Tile>();
-          n.data = t;
-          nodes.Add(t, n);
-        }
+        // if (t.movementCost > 0) {
+        Path_Node<Tile> n = new Path_Node<Tile>();
+        n.data = t;
+        nodes.Add(t, n);
+        // }
       }
     }
 

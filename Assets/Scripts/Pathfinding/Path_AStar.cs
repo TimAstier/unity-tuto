@@ -16,9 +16,6 @@ public class Path_AStar {
 
     Dictionary<Tile, Path_Node<Tile>> nodes = world.tileGraph.nodes;
 
-    Path_Node<Tile> start = nodes[tileStart];
-    Path_Node<Tile> goal = nodes[tileEnd];
-
     if (nodes.ContainsKey(tileStart) == false) {
       Debug.LogError("Path_AStar: The starting tile isn't in the list of nodes!");
       return;
@@ -28,6 +25,9 @@ public class Path_AStar {
       Debug.LogError("Path_AStar: The ending tile isn't in the list of nodes!");
       return;
     }
+
+    Path_Node<Tile> start = nodes[tileStart];
+    Path_Node<Tile> goal = nodes[tileEnd];
 
     List<Path_Node<Tile>> ClosedSet = new List<Path_Node<Tile>>();
 
@@ -63,7 +63,9 @@ public class Path_AStar {
         if (ClosedSet.Contains(neighbor) == true) {
           continue;
         }
-        float tentative_g_score = g_score[current] + dist_between(current, neighbor);
+
+        float movement_cost_to_neighbour = neighbor.data.movementCost * dist_between(current, neighbor);
+        float tentative_g_score = g_score[current] + movement_cost_to_neighbour;
 
         if (OpenSet.Contains(neighbor) && tentative_g_score >= g_score[neighbor]) {
           continue;
@@ -111,8 +113,15 @@ public class Path_AStar {
     path = new Queue<Tile>(total_path.Reverse());
   }
 
-  public Tile GetNextTile() {
+  public Tile Dequeue() {
     return path.Dequeue();
+  }
+
+  public int Length() {
+    if (path == null) {
+      return 0;
+    }
+    return path.Count;
   }
 
 }
