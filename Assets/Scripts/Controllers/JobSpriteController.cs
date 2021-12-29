@@ -3,29 +3,17 @@ using UnityEngine;
 
 public class JobSpriteController : MonoBehaviour {
 
-  // This bare-bones controller is mostly just going to piggyback
-  // on FurnitureSpriteController because we don't yet fully know
-  // what our job system is going to look like in the end.
-
   FurnitureSpriteController fsc;
   Dictionary<Job, GameObject> jobGameObjectMap;
 
-  // Use this for initialization
   void Start() {
     jobGameObjectMap = new Dictionary<Job, GameObject>();
     fsc = GameObject.FindObjectOfType<FurnitureSpriteController>();
-
-    // FIXME: No such thing as a job queue yet!
     WorldController.Instance.world.jobQueue.RegisterJobCreationCallback(OnJobCreated);
   }
 
   void OnJobCreated(Job job) {
-    // FIXME: We can only do furniture-building jobs.
-
-    // TODO: Sprite
-
     GameObject job_go = new GameObject();
-
 
     if (jobGameObjectMap.ContainsKey(job)) {
       return;
@@ -36,7 +24,6 @@ public class JobSpriteController : MonoBehaviour {
       return;
     }
 
-    // Add our tile/GO pair to the dictionary.
     jobGameObjectMap.Add(job, job_go);
 
     job_go.name = "JOB_" + job.jobObjectType + "_" + job.tile.X + "_" + job.tile.Y;

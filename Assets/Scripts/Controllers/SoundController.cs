@@ -1,47 +1,44 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SoundController : MonoBehaviour {
-	float soundCooldown = 0;
+  float soundCooldown = 0;
 
-	// Use this for initialization
-	void Start () {
-		WorldController.Instance.world.RegisterFurnitureCreated( OnFurnitureCreated );
+  // Use this for initialization
+  void Start() {
+    WorldController.Instance.world.RegisterFurnitureCreated(OnFurnitureCreated);
 
-		WorldController.Instance.world.RegisterTileChanged( OnTileChanged );
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		soundCooldown -= Time.deltaTime;
-	}
+    WorldController.Instance.world.RegisterTileChanged(OnTileChanged);
+  }
 
-	void OnTileChanged( Tile tile_data ) {
-		// FIXME
+  // Update is called once per frame
+  void Update() {
+    soundCooldown -= Time.deltaTime;
+  }
 
-		if(soundCooldown > 0)
-			return;
+  void OnTileChanged(Tile tile_data) {
+    if (soundCooldown > 0)
+      return;
 
-		AudioClip ac = Resources.Load<AudioClip>("Sounds/Floor_OnCreated");
-		AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
-		soundCooldown = 0.1f;
-	}
+    AudioClip ac = Resources.Load<AudioClip>("Sounds/Floor_OnCreated");
+    AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
+    soundCooldown = 0.1f;
+  }
 
-	public void OnFurnitureCreated( Furniture furn ) {
-		// FIXME
-		if(soundCooldown > 0)
-			return;
-		
-		AudioClip ac = Resources.Load<AudioClip>("Sounds/"+ furn.objectType +"_OnCreated");
+  public void OnFurnitureCreated(Furniture furn) {
+    if (soundCooldown > 0)
+      return;
 
-		if(ac == null) {
-			// WTF?  What do we do?
-			// Since there's no specific sound for whatever Furniture this is, just
-			// use a default sound -- i.e. the Wall_OnCreated sound.
-			ac = Resources.Load<AudioClip>("Sounds/Wall_OnCreated");
-		}
+    AudioClip ac = Resources.Load<AudioClip>("Sounds/" + furn.objectType + "_OnCreated");
 
-		AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
-		soundCooldown = 0.1f;
-	}
+    if (ac == null) {
+      // WTF?  What do we do?
+      // Since there's no specific sound for whatever Furniture this is, just
+      // use a default sound -- i.e. the Wall_OnCreated sound.
+      ac = Resources.Load<AudioClip>("Sounds/Wall_OnCreated");
+    }
+
+    AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
+    soundCooldown = 0.1f;
+  }
 }

@@ -1,5 +1,15 @@
 # Dungeon base builder
 
+## TODO
+
+- [x] Move camera with keyboard
+- [ ] WASD for english keyboards
+- [ ] Pause / Unpause
+- [ ] Move character
+- [ ] Fog of war
+- [ ] Map generation
+- [ ] Hover on tiles to get info
+
 ## Ideas
 
 - Roguelike / DOTA like hero

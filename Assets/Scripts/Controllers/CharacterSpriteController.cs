@@ -1,90 +1,63 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterSpriteController : MonoBehaviour {
 
-	Dictionary<Character, GameObject> characterGameObjectMap;
+  Dictionary<Character, GameObject> characterGameObjectMap;
 
-	Dictionary<string, Sprite> characterSprites;
+  Dictionary<string, Sprite> characterSprites;
 
-	World world {
-		get { return WorldController.Instance.world; }
-	}
+  World world {
+    get { return WorldController.Instance.world; }
+  }
 
-	// Use this for initialization
-	void Start () {
-		LoadSprites();
+  void Start() {
+    LoadSprites();
 
-		// Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
-		characterGameObjectMap = new Dictionary<Character, GameObject>();
+    characterGameObjectMap = new Dictionary<Character, GameObject>();
 
-		// Register our callback so that our GameObject gets updated whenever
-		// the tile's type changes.
-		world.RegisterCharacterCreated(OnCharacterCreated);
+    world.RegisterCharacterCreated(OnCharacterCreated);
 
+    // DEBUG
+    Character c = world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
+  }
 
+  void LoadSprites() {
+    characterSprites = new Dictionary<string, Sprite>();
+    Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Characters/");
 
-		// DEBUG
-		Character c = world.CreateCharacter( world.GetTileAt( world.Width/2, world.Height/2 ) );
+    foreach (Sprite s in sprites) {
+      characterSprites[s.name] = s;
+    }
+  }
 
-		//c.SetDestination( world.GetTileAt( world.Width/2 + 5, world.Height/2 ) );
-	}
+  public void OnCharacterCreated(Character c) {
+    GameObject char_go = new GameObject();
 
-	void LoadSprites() {
-		characterSprites = new Dictionary<string, Sprite>();
-		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Characters/");
+    characterGameObjectMap.Add(c, char_go);
 
-		//Debug.Log("LOADED RESOURCE:");
-		foreach(Sprite s in sprites) {
-			//Debug.Log(s);
-			characterSprites[s.name] = s;
-		}
-	}
+    char_go.name = "Character";
+    char_go.transform.position = new Vector3(c.X, c.Y, 0);
+    char_go.transform.SetParent(this.transform, true);
 
-	public void OnCharacterCreated( Character c ) {
-		Debug.Log("OnCharacterCreated");
-		// Create a visual GameObject linked to this data.
+    SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
+    sr.sprite = characterSprites["p1_front"];
+    sr.sortingLayerName = "Characters";
 
-		// FIXME: Does not consider multi-tile objects nor rotated objects
+    c.RegisterOnChangedCallback(OnCharacterChanged);
+  }
 
-		// This creates a new GameObject and adds it to our scene.
-		GameObject char_go = new GameObject();
+  void OnCharacterChanged(Character c) {
 
-		// Add our tile/GO pair to the dictionary.
-		characterGameObjectMap.Add( c, char_go );
+    if (characterGameObjectMap.ContainsKey(c) == false) {
+      Debug.LogError("OnCharacterChanged -- trying to change visuals for character not in our map.");
+      return;
+    }
 
-		char_go.name = "Character";
-		char_go.transform.position = new Vector3( c.X, c.Y, 0);
-		char_go.transform.SetParent(this.transform, true);
-
-		SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
-		sr.sprite = characterSprites["p1_front"];
-		sr.sortingLayerName = "Characters";
-
-		// Register our callback so that our GameObject gets updated whenever
-		// the object's into changes.
-		c.RegisterOnChangedCallback( OnCharacterChanged );
-
-	}
-
-	void OnCharacterChanged( Character c ) {
-		//Debug.Log("OnFurnitureChanged");
-		// Make sure the furniture's graphics are correct.
-
-		if(characterGameObjectMap.ContainsKey(c) == false) {
-			Debug.LogError("OnCharacterChanged -- trying to change visuals for character not in our map.");
-			return;
-		}
-
-		GameObject char_go = characterGameObjectMap[c];
-		//Debug.Log(furn_go);
-		//Debug.Log(furn_go.GetComponent<SpriteRenderer>());
-
-		//char_go.GetComponent<SpriteRenderer>().sprite = GetSpriteForFurniture(furn);
-
-		char_go.transform.position = new Vector3( c.X, c.Y, 0);
-	}
+    GameObject char_go = characterGameObjectMap[c];
+    char_go.transform.position = new Vector3(c.X, c.Y, 0);
+  }
 
 
-	
+
 }

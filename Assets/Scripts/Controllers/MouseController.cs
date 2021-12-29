@@ -24,7 +24,6 @@ public class MouseController : MonoBehaviour {
     currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     currFramePosition.z = 0;
 
-    //UpdateCursor();
     UpdateDragging();
     UpdateCameraMovement();
 
@@ -95,7 +94,6 @@ public class MouseController : MonoBehaviour {
           Tile t = WorldController.Instance.world.GetTileAt(x, y);
 
           if (t != null) {
-            // Call BuildModeController::DoBuild()
             bmc.DoBuild(t);
           }
         }
@@ -104,16 +102,11 @@ public class MouseController : MonoBehaviour {
   }
 
   void UpdateCameraMovement() {
-    // Handle screen panning
-    if (Input.GetMouseButton(1) || Input.GetMouseButton(2)) { // Right or Middle Mouse Button
-
+    if (Input.GetMouseButton(1) || Input.GetMouseButton(2)) {
       Vector3 diff = lastFramePosition - currFramePosition;
       Camera.main.transform.Translate(diff);
-
     }
-
     Camera.main.orthographicSize -= Camera.main.orthographicSize * Input.GetAxis("Mouse ScrollWheel");
-
     Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, 3f, 25f);
   }
 
