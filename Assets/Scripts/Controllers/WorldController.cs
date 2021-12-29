@@ -4,47 +4,47 @@
 //=======================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour {
 
-    public static WorldController Instance { get; protected set; }
+	public static WorldController Instance { get; protected set; }
 
-    // The world and tile data
-    public World world { get; protected set; }
+	// The world and tile data
+	public World world { get; protected set; }
 
-    // Use this for initialization
-    void OnEnable() {
+	// Use this for initialization
+	void OnEnable () {
+		if(Instance != null) {
+			Debug.LogError("There should never be two world controllers.");
+		}
+		Instance = this;
 
-        if (Instance != null) {
-            Debug.LogError("There should never be two world controllers.");
-        }
+		// Create a world with Empty tiles
+		world = new World();
 
-        Instance = this;
+		// Center the Camera
+		Camera.main.transform.position = new Vector3( world.Width/2, world.Height/2, Camera.main.transform.position.z );
+	}
 
-        // Create a world with Empty tiles
-        world = new World();
+	void Update() {
+		// TODO: Add pause/unpause, speed controls, etc...
+		world.Update(Time.deltaTime);
 
-        // Center the camera
-        Camera.main.transform.position = new Vector3(world.Height / 2, world.Width / 2, Camera.main.transform.position.z);
-    }
+	}
+		
+	/// <summary>
+	/// Gets the tile at the unity-space coordinates
+	/// </summary>
+	/// <returns>The tile at world coordinate.</returns>
+	/// <param name="coord">Unity World-Space coordinates.</param>
+	public Tile GetTileAtWorldCoord(Vector3 coord) {
+		int x = Mathf.FloorToInt(coord.x);
+		int y = Mathf.FloorToInt(coord.y);
+		
+		return world.GetTileAt(x, y);
+	}
 
-    void Update() {
-        // TODO: Add pause, unpause, speed control, etc.
-        world.Update(Time.deltaTime);
-    }
-
-    /// <summary>
-    /// Gets the tile at the unity-space coordinates
-    /// </summary>
-    /// <returns>The tile at world coordinate.</returns>
-    /// <param name="coord">Unity World-Space coordinates.</param>
-    public Tile GetTileAtWorldCoord(Vector3 coord) {
-        int x = Mathf.FloorToInt(coord.x);
-        int y = Mathf.FloorToInt(coord.y);
-
-        return world.GetTileAt(x, y);
-    }
 }

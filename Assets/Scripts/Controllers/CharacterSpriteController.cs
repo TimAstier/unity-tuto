@@ -1,80 +1,90 @@
-using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CharacterSpriteController : MonoBehaviour {
 
-    Dictionary<Character, GameObject> characterGameObjectMap;
+	Dictionary<Character, GameObject> characterGameObjectMap;
 
-    Dictionary<string, Sprite> characterSprites;
+	Dictionary<string, Sprite> characterSprites;
 
-    World world {
-        get { return WorldController.Instance.world; }
-    }
+	World world {
+		get { return WorldController.Instance.world; }
+	}
 
-    // Start is called before the first frame update
-    void Start() {
-        LoadSprites();
+	// Use this for initialization
+	void Start () {
+		LoadSprites();
 
-        // Instantiate dictionaries 
-        characterGameObjectMap = new Dictionary<Character, GameObject>();
+		// Instantiate our dictionary that tracks which GameObject is rendering which Tile data.
+		characterGameObjectMap = new Dictionary<Character, GameObject>();
 
-        // Register callbacks
-        world.RegisterCharacterCreated(OnCharacterCreated);
+		// Register our callback so that our GameObject gets updated whenever
+		// the tile's type changes.
+		world.RegisterCharacterCreated(OnCharacterCreated);
 
-        // DEBUG
-        Character c = world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
-        // c.SetDestination(world.GetTileAt(world.Width / 2 + 5, world.Height / 2));
-    }
 
-    void LoadSprites() {
-        characterSprites = new Dictionary<string, Sprite>();
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Characters/");
 
-        // Debug.Log("LOADED RESOURCE:");
-        foreach (Sprite s in sprites) {
-            // Debug.Log(s);
-            characterSprites[s.name] = s;
-        }
-    }
+		// DEBUG
+		Character c = world.CreateCharacter( world.GetTileAt( world.Width/2, world.Height/2 ) );
 
-    public void OnCharacterCreated(Character character) {
-        //Debug.Log("OnFurnitureCreated");
-        // Create a visual GameObject linked to this data.
+		//c.SetDestination( world.GetTileAt( world.Width/2 + 5, world.Height/2 ) );
+	}
 
-        // FIXME: Does not consider multi-tile objects nor rotated objects
+	void LoadSprites() {
+		characterSprites = new Dictionary<string, Sprite>();
+		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Characters/");
 
-        // This creates a new GameObject and adds it to our scene.
-        GameObject char_go = new GameObject();
+		//Debug.Log("LOADED RESOURCE:");
+		foreach(Sprite s in sprites) {
+			//Debug.Log(s);
+			characterSprites[s.name] = s;
+		}
+	}
 
-        // Add our tile/GO pair to the dictionary.
-        characterGameObjectMap.Add(character, char_go);
+	public void OnCharacterCreated( Character c ) {
+		Debug.Log("OnCharacterCreated");
+		// Create a visual GameObject linked to this data.
 
-        char_go.name = "Character";
-        char_go.transform.position = new Vector3(character.X, character.Y, 0);
-        char_go.transform.SetParent(this.transform, true);
+		// FIXME: Does not consider multi-tile objects nor rotated objects
 
-        SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
-        sr.sprite = characterSprites["p1_front"];
-        sr.sortingLayerName = "Characters";
+		// This creates a new GameObject and adds it to our scene.
+		GameObject char_go = new GameObject();
 
-        // Register our callback so that our GameObject gets updated whenever
-        // the object's into changes.
-        character.RegisterOnChangedCallback(OnCharacterChanged);
+		// Add our tile/GO pair to the dictionary.
+		characterGameObjectMap.Add( c, char_go );
 
-    }
+		char_go.name = "Character";
+		char_go.transform.position = new Vector3( c.X, c.Y, 0);
+		char_go.transform.SetParent(this.transform, true);
 
-    void OnCharacterChanged(Character c) {
-        //Debug.Log("OnFurnitureChanged");
-        // Make sure the furniture's graphics are correct.
+		SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
+		sr.sprite = characterSprites["p1_front"];
+		sr.sortingLayerName = "Characters";
 
-        if (characterGameObjectMap.ContainsKey(c) == false) {
-            Debug.LogError("OnCharacterChanged -- trying to change visuals for a character that doesn't exist.");
-            return;
-        }
+		// Register our callback so that our GameObject gets updated whenever
+		// the object's into changes.
+		c.RegisterOnChangedCallback( OnCharacterChanged );
 
-        GameObject char_go = characterGameObjectMap[c];
-        char_go.transform.position = new Vector3(c.X, c.Y, 0);
+	}
 
-    }
-} 
+	void OnCharacterChanged( Character c ) {
+		//Debug.Log("OnFurnitureChanged");
+		// Make sure the furniture's graphics are correct.
+
+		if(characterGameObjectMap.ContainsKey(c) == false) {
+			Debug.LogError("OnCharacterChanged -- trying to change visuals for character not in our map.");
+			return;
+		}
+
+		GameObject char_go = characterGameObjectMap[c];
+		//Debug.Log(furn_go);
+		//Debug.Log(furn_go.GetComponent<SpriteRenderer>());
+
+		//char_go.GetComponent<SpriteRenderer>().sprite = GetSpriteForFurniture(furn);
+
+		char_go.transform.position = new Vector3( c.X, c.Y, 0);
+	}
+
+
+	
+}
