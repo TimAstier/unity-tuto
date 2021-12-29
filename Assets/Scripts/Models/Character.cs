@@ -24,7 +24,7 @@ public class Character {
   Tile nextTile; // The next tile in the pathfinding sequence.
   Path_AStar pathAStar;
   float movementPercentage;
-  float speed = 2f; // Tiles per second
+  float speed = 5f; // Tiles per second
 
   Action<Character> cbCharacterChanged;
 
@@ -77,7 +77,10 @@ public class Character {
       }
     }
 
-    float distToTravel = Mathf.Sqrt(Mathf.Pow(currTile.X - destTile.X, 2) + Mathf.Pow(currTile.Y - destTile.Y, 2));
+    float distToTravel = Mathf.Sqrt(
+      Mathf.Pow(currTile.X - nextTile.X, 2) +
+      Mathf.Pow(currTile.Y - nextTile.Y, 2)
+    );
     float distanceThisFrame = speed * deltaTime;
     float percThisFrame = distanceThisFrame / distToTravel;
     movementPercentage += percThisFrame;
