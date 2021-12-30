@@ -44,7 +44,7 @@ public class GenerateLevel {
     return (first, second);
   }
 
-  public static List<List<Area>> GetLeavesArray() {
+  static List<List<Area>> GetLeavesArray() {
     Area fullMap = new Area(new Vector2Int(0, 0), new Vector2Int(Constants.GridWidth, Constants.GridHeight));
 
     List<Area> leaves = new List<Area>();
@@ -80,7 +80,7 @@ public class GenerateLevel {
     return leavesList;
   }
 
-  public static Area GetRandomAreaWithinArea(Area area) {
+  static Area GetRandomAreaWithinArea(Area area) {
     int originalWidth = area.end.x - area.origin.x;
     int originalHeight = area.end.y - area.origin.y;
 
@@ -96,15 +96,94 @@ public class GenerateLevel {
     return new Area(origin, end);
   }
 
-  public static void PlaceRectangleOnMap(World world, Tile[,] map, Area area) {
+  static void PlaceRectangleOnMap(World world, Tile[,] map, Area area) {
 
     for (int i = area.origin.x; i <= area.end.x; i++) {
       for (int j = area.origin.y; j <= area.end.y; j++) {
         if (i == area.origin.x || i == area.end.x || j == area.origin.y || j == area.end.y) {
           map[i, j].Type = TileType.Floor;
-          // world.PlaceFurniture("Wall", map[j, i]);
+          world.PlaceFurniture("Wall", map[i, j]);
         } else {
-          // 
+          map[i, j].Type = TileType.Floor;
+        }
+      }
+    }
+  }
+
+  static List<Vector2Int> FindEmptyCellsInArea(Area area, Tile[,] map) {
+    List<Vector2Int> positions = new List<Vector2Int>();
+    for (int j = area.origin.y; j <= area.end.y; j++) {
+      for (int i = area.origin.x; i <= area.end.x; i++) {
+        if (map[j, i].Type == TileType.Floor && map[j, i].furniture == null) {
+          positions.Add(new Vector2Int(i, j));
+        }
+      }
+    }
+    return positions;
+  }
+
+  // From https://www.redblobgames.com/grids/line-drawing.html#stepping
+  static List<Vector2Int> WalkGrid(Vector2Int p0, Vector2Int p1) {
+    int dx = p1[0] - p0[0];
+    int dy = p1[1] - p0[1];
+    int nx = Math.Abs(dx);
+    int ny = Math.Abs(dy);
+    int signX = dx > 0 ? 1 : -1;
+    int signY = dy > 0 ? 1 : -1;
+
+    Vector2Int p = new Vector2Int(p0.x, p0.y);
+    List<Vector2Int> positions = new List<Vector2Int>();
+    positions.Add(p);
+
+    for (int ix = 0, iy = 0; ix < nx || iy < ny;) {
+      if ((0.5 + ix) / nx < (0.5 + iy) / ny) {
+        // next step is horizontal
+        p.x += signX;
+        ix++;
+      } else {
+        // next step is vertical
+        p.y += signY;
+        iy++;
+      }
+      positions.Add(p);
+    }
+    return positions;
+  }
+
+  static void ConnectLeaves(Area leafA, Area leafB, Tile[,] map) {
+    // Find one empty cell in boths areas
+    List<Vector2Int> candidatesA = FindEmptyCellsInArea(leafA, map);
+    Vector2Int positionA = candidatesA[(int)(Random.Range(0f, 1f) * candidatesA.Count)];
+
+    List<Vector2Int> candidatesB = FindEmptyCellsInArea(leafB, map);
+    Vector2Int positionB = candidatesB[(int)(Random.Range(0f, 1f) * candidatesB.Count)];
+
+    // Get walking path between the two positions
+    List<Vector2Int> positions = WalkGrid(positionA, positionB);
+
+    // Dig tunnel between the two positions
+    foreach (Vector2Int position in positions) {
+      map[position[1], position[0]].Type = TileType.Floor;
+      // TODO: Remove walls
+    }
+  }
+
+  static void ConnectAdjacentLeaves(List<List<Area>> leavesArray, World world, int index, int leavesDepth) {
+    ConnectLeaves(
+      leavesArray[leavesDepth][leavesArray[leavesDepth].Count - (index - 1)],
+      leavesArray[leavesDepth][leavesArray[leavesDepth].Count - index],
+      world.tiles
+    );
+  }
+
+  static void ConnectAllLeaves(World world, List<List<Area>> leavesArray) {
+    for (int i = 0; i <= NUMBER_0F_SPLITS; i++) {
+      for (int j = 1; j <= Math.Pow(2, NUMBER_0F_SPLITS - i); j++) {
+        ConnectAdjacentLeaves(leavesArray, world, j * 2, NUMBER_0F_SPLITS - i);
+        if (i == NUMBER_0F_SPLITS) {
+          ConnectAdjacentLeaves(leavesArray, world, j * 2, NUMBER_0F_SPLITS - i);
+          ConnectAdjacentLeaves(leavesArray, world, j * 2, NUMBER_0F_SPLITS - i);
+          ConnectAdjacentLeaves(leavesArray, world, j * 2, NUMBER_0F_SPLITS - i);
         }
       }
     }
@@ -113,7 +192,6 @@ public class GenerateLevel {
   static public Tile[,] GenerateMap(World world, Action<Tile> tileChangedCb) {
     // Get an empty map
     Tile[,] emptyMap = CreateEmptyMap(world, Constants.GridWidth, Constants.GridHeight, tileChangedCb);
-
     return emptyMap;
   }
 
@@ -129,6 +207,9 @@ public class GenerateLevel {
     foreach (Area room in rooms) {
       PlaceRectangleOnMap(world, resultMap, room);
     }
+
+    // Connect rooms
+    ConnectAllLeaves(world, leavesArray);
   }
 
 }
