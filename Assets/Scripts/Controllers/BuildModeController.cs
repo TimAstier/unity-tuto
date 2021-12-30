@@ -30,6 +30,10 @@ public class BuildModeController : MonoBehaviour {
     WorldController.Instance.world.SetupPathfindingExample();
   }
 
+  public void DoGenerateLevel() {
+    GenerateLevel.CreateRandomLevel(WorldController.Instance.world);
+  }
+
   public void DoBuild(Tile t) {
     if (buildModeIsObjects == true) {
       string furnitureType = buildModeObjectType;

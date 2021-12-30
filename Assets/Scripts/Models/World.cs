@@ -5,12 +5,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class World {
 
   // A two-dimensional array to hold our tile data.
-  Tile[,] tiles;
+  public Tile[,] tiles {
+    get; protected set;
+  }
+
   List<Character> characters;
 
   // The pathfinding graph used to navigate our world map.
@@ -45,18 +49,11 @@ public class World {
     Width = width;
     Height = height;
 
-    tiles = new Tile[Width, Height];
+    CreateFurniturePrototypes();
 
-    for (int x = 0; x < Width; x++) {
-      for (int y = 0; y < Height; y++) {
-        tiles[x, y] = new Tile(this, x, y);
-        tiles[x, y].RegisterTileTypeChangedCallback(OnTileChanged);
-      }
-    }
+    tiles = GenerateLevel.GenerateMap(this, this.OnTileChanged);
 
     Debug.Log("World created with " + (Width * Height) + " tiles.");
-
-    CreateFurniturePrototypes();
 
     characters = new List<Character>();
   }
@@ -129,7 +126,6 @@ public class World {
         }
       }
     }
-
   }
 
   /// <summary>

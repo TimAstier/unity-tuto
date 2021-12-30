@@ -2,12 +2,17 @@
 
 ## TODO
 
+- Figure out why changing the tileType works via button but not in controller.
+- Fix wrong placeRectangles.
+
 - [x] Move camera with keyboard
+- [ ] Map generation
+  - [ ] GenerateMap as a static function
+- [ ] Increase camera move speed based on zoom level
 - [ ] WASD for english keyboards
 - [ ] Pause / Unpause
 - [ ] Move character
 - [ ] Fog of war
-- [ ] Map generation
 - [ ] Hover on tiles to get info
 
 ## Ideas

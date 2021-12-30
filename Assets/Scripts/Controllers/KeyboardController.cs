@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeyboardController : MonoBehaviour {
 
-  public float speed = 10.0f;
+  public float speed = 15.0f;
 
   void Start() { }
 
