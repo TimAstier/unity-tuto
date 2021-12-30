@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class KeyboardController : MonoBehaviour {
 
-  public float speed = 15.0f;
+  public float baseSpeed = 1.0f;
 
   void Start() { }
 
   void Update() {
+    float zoom = Camera.main.orthographicSize;
+    float speed = baseSpeed * (zoom - 1);
+
     if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
       Camera.main.transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
     }
