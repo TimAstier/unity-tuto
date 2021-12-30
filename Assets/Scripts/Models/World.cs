@@ -29,6 +29,7 @@ public class World {
   public int Height { get; protected set; }
 
   Action<Furniture> cbFurnitureCreated;
+  Action<Furniture> cbFurnitureDestroyed;
   Action<Character> cbCharacterCreated;
   Action<Tile> cbTileChanged;
 
@@ -165,8 +166,19 @@ public class World {
     }
   }
 
+  public void DestroyFurniture(Tile t) {
+    if (cbFurnitureCreated != null && t.furniture != null) {
+      cbFurnitureDestroyed(t.furniture);
+    }
+    return;
+  }
+
   public void RegisterFurnitureCreated(Action<Furniture> callbackfunc) {
     cbFurnitureCreated += callbackfunc;
+  }
+
+  public void RegisterFurnitureDestroyed(Action<Furniture> callbackfunc) {
+    cbFurnitureDestroyed += callbackfunc;
   }
 
   public void UnregisterFurnitureCreated(Action<Furniture> callbackfunc) {

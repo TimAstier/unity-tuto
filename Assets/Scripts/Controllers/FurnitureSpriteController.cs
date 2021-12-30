@@ -23,6 +23,7 @@ public class FurnitureSpriteController : MonoBehaviour {
     LoadSprites();
     furnitureGameObjectMap = new Dictionary<Furniture, GameObject>();
     world.RegisterFurnitureCreated(OnFurnitureCreated);
+    world.RegisterFurnitureDestroyed(OnFurnitureDestroyed);
   }
 
   void LoadSprites() {
@@ -48,6 +49,12 @@ public class FurnitureSpriteController : MonoBehaviour {
     sr.sortingLayerName = "Furnitures";
 
     furn.RegisterOnChangedCallback(OnFurnitureChanged);
+  }
+
+  public void OnFurnitureDestroyed(Furniture furn) {
+    furn.tile.PlaceFurniture(null);
+    GameObject furn_go = furnitureGameObjectMap[furn];
+    Destroy(furn_go);
   }
 
   void OnFurnitureChanged(Furniture furn) {

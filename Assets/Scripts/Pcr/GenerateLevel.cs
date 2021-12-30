@@ -150,12 +150,12 @@ public class GenerateLevel {
     return positions;
   }
 
-  static void ConnectLeaves(Area leafA, Area leafB, Tile[,] map) {
+  static void ConnectLeaves(Area leafA, Area leafB, World world) {
     // Find one empty cell in boths areas
-    List<Vector2Int> candidatesA = FindEmptyCellsInArea(leafA, map);
+    List<Vector2Int> candidatesA = FindEmptyCellsInArea(leafA, world.tiles);
     Vector2Int positionA = candidatesA[(int)(Random.Range(0f, 1f) * candidatesA.Count)];
 
-    List<Vector2Int> candidatesB = FindEmptyCellsInArea(leafB, map);
+    List<Vector2Int> candidatesB = FindEmptyCellsInArea(leafB, world.tiles);
     Vector2Int positionB = candidatesB[(int)(Random.Range(0f, 1f) * candidatesB.Count)];
 
     // Get walking path between the two positions
@@ -163,8 +163,8 @@ public class GenerateLevel {
 
     // Dig tunnel between the two positions
     foreach (Vector2Int position in positions) {
-      map[position[1], position[0]].Type = TileType.Floor;
-      // TODO: Remove walls
+      world.tiles[position[1], position[0]].Type = TileType.Floor;
+      world.DestroyFurniture(world.tiles[position[1], position[0]]);
     }
   }
 
@@ -172,7 +172,7 @@ public class GenerateLevel {
     ConnectLeaves(
       leavesArray[leavesDepth][leavesArray[leavesDepth].Count - (index - 1)],
       leavesArray[leavesDepth][leavesArray[leavesDepth].Count - index],
-      world.tiles
+      world
     );
   }
 

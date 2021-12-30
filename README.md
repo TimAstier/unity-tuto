@@ -7,12 +7,13 @@
 
 - [x] Move camera with keyboard
 - [ ] Map generation
-  - [ ] GenerateMap as a static function
+  - [x] GenerateMap as a static function
+  - [ ] Remove walls
+- [ ] Fog of war
 - [ ] Increase camera move speed based on zoom level
 - [ ] WASD for english keyboards
 - [ ] Pause / Unpause
 - [ ] Move character
-- [ ] Fog of war
 - [ ] Hover on tiles to get info
 
 ## Ideas
