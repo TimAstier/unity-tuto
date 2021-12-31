@@ -14,6 +14,9 @@ public class MouseController : MonoBehaviour {
   Vector3 dragStartPosition;
   List<GameObject> dragPreviewGameObjects;
 
+  Vector3 hoverPosition;
+  GameObject mouseHoverGameObject;
+
   // Use this for initialization
   void Start() {
     dragPreviewGameObjects = new List<GameObject>();
@@ -24,7 +27,11 @@ public class MouseController : MonoBehaviour {
     currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     currFramePosition.z = 0;
 
-    UpdateDragging();
+    GameMode gameMode = WorldController.Instance.world.gameMode;
+
+    UpdateMouseHover(gameMode);
+    UpdateDragging(gameMode);
+
     UpdateCameraMovement();
 
     // Save the mouse position from this frame
@@ -33,7 +40,41 @@ public class MouseController : MonoBehaviour {
     lastFramePosition.z = 0;
   }
 
-  void UpdateDragging() {
+  void UpdateMouseHover(GameMode gameMode) {
+
+    if (gameMode == GameMode.Select) {
+      if (mouseHoverGameObject != null) {
+        SimplePool.Despawn(mouseHoverGameObject);
+        mouseHoverGameObject = null;
+      }
+      return;
+    }
+
+    if (gameMode == GameMode.Build) {
+      int currTileX = Mathf.FloorToInt(currFramePosition.x);
+      int currTileY = Mathf.FloorToInt(currFramePosition.y);
+
+      if (currTileX != hoverPosition.x || currTileY != hoverPosition.y) {
+        hoverPosition = new Vector3(currTileX, currTileY, 0);
+        GameObject go = SimplePool.Spawn(circleCursorPrefab, new Vector3(currTileX, currTileY, 0), Quaternion.identity);
+        go.transform.SetParent(this.transform, true);
+
+        if (mouseHoverGameObject != null) {
+          GameObject previousGo = mouseHoverGameObject;
+          mouseHoverGameObject = null;
+          SimplePool.Despawn(previousGo);
+        }
+
+        mouseHoverGameObject = go;
+      }
+    }
+  }
+
+  void UpdateDragging(GameMode gameMode) {
+    if (gameMode != GameMode.Build) {
+      return;
+    }
+
     // If we're over a UI element, then bail out from this.
     if (EventSystem.current.IsPointerOverGameObject()) {
       return;

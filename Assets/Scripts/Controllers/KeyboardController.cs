@@ -24,5 +24,9 @@ public class KeyboardController : MonoBehaviour {
     if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Z)) {
       Camera.main.transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
     }
+
+    if (Input.GetKey(KeyCode.Escape)) {
+      WorldController.Instance.world.SetGameMode(GameMode.Select);
+    }
   }
 }

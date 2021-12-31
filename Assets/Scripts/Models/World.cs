@@ -8,12 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum GameMode { Select, Build };
+
 public class World {
 
   // A two-dimensional array to hold our tile data.
   public Tile[,] tiles {
     get; protected set;
   }
+
+  public GameMode gameMode { get; protected set; } = GameMode.Select;
 
   List<Character> characters;
 
@@ -228,5 +232,9 @@ public class World {
     }
 
     return furniturePrototypes[objectType];
+  }
+
+  public void SetGameMode(GameMode gameMode) {
+    this.gameMode = gameMode;
   }
 }

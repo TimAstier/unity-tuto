@@ -7,11 +7,18 @@
 - [x] Map generation
   - [x] GenerateMap as a static function
   - [x] Remove walls
-- [ ] Fog of war
-- [ ] WASD for english keyboards
-- [ ] Pause / Unpause
+- [ ] Generate the base
+- [ ] Select character
+  - [x] Display build icon on mouse hover
+  - [x] Fill in button colors when mode active
+  - [x] Switch to build mode when clicking build buttons
+  - [x] Switch back to select mode when press escape
+  - [ ] Top bar with characters to select
 - [ ] Move character
+- [ ] Pause / Unpause
+- [ ] Fog of war
 - [ ] Hover on tiles to get info
+- [ ] WASD for english keyboards
 
 ## Ideas
 
