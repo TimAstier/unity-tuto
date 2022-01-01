@@ -23,7 +23,7 @@ public class Character {
   Tile destTile;  // If we aren't moving, then destTile = currTile
   Tile nextTile;  // The next tile in the pathfinding sequence
   Path_AStar pathAStar;
-  float movementPercentage; // Goes from 0 to 1 as we move from currTile to destTile
+  float movementPercentage; // Goes from 0 to 1 as we move from currTile to nextTile
 
   float speed = 5f; // Tiles per second
 
@@ -122,25 +122,21 @@ public class Character {
     movementPercentage += percThisFrame;
 
     if (movementPercentage >= 1) {
-      // We have reached our destination
-
-      // TODO: Get the next tile from the pathfinding system.
-      //       If there are no more tiles, then we have TRULY
-      //       reached our destination.
-
+      Debug.Log("Update visibility");
       currTile = nextTile;
+      currTile.SetVisibility(TileVisibility.Clear);
+      // TODO: Instead of doing this, find a way to use callbacks to have FowController updating the view
+      // FogOfWarController fc = GameObject.FindObjectOfType<FogOfWarController>();
+      // fc.UpdateVisibility(TileVisibility.Clear, new Vector2Int(currTile.X, currTile.Y));
       movementPercentage = 0;
-      // FIXME?  Do we actually want to retain any overshot movement?
     }
 
 
   }
 
   public void Update(float deltaTime) {
-    //Debug.Log("Character Update");
 
     Update_DoJob(deltaTime);
-
     Update_DoMovement(deltaTime);
 
     if (cbCharacterChanged != null)

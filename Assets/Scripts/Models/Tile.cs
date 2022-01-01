@@ -9,9 +9,9 @@ using UnityEngine;
 
 // TileType is the base type of the tile. In some tile-based games, that might be
 // the terrain type. For us, we only need to differentiate between empty space
-// and floor (a.k.a. the station structure/scaffold). Walls/Doors/etc... will be
-// InstalledObjects sitting on top of the floor.
+// and floor.
 public enum TileType { Empty, Floor };
+public enum TileVisibility { Clear, Dim, Dark };
 
 public class Tile {
   private TileType _type = TileType.Empty;
@@ -28,6 +28,8 @@ public class Tile {
     }
   }
 
+  public TileVisibility visibility { get; protected set; } = TileVisibility.Dark;
+
   // LooseObject is something like a drill or a stack of metal sitting on the floor
   Inventory inventory;
 
@@ -40,7 +42,6 @@ public class Tile {
   // on a tile.  This is going to be prone to errors in set/clear.
   public Job pendingFurnitureJob;
 
-  // We need to know the context in which we exist. Probably. Maybe.
   public World world { get; protected set; }
 
   public int X { get; protected set; }
@@ -155,6 +156,10 @@ public class Tile {
     }
 
     return ns;
+  }
+
+  public void SetVisibility(TileVisibility visibility) {
+    this.visibility = visibility;
   }
 
 }

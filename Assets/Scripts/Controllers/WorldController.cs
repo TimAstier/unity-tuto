@@ -23,7 +23,7 @@ public class WorldController : MonoBehaviour {
     Instance = this;
 
     // Create a world
-    world = new World(Constants.GridWidth, Constants.GridHeight);
+    world = new World(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
 
     // Center the Camera
     Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);

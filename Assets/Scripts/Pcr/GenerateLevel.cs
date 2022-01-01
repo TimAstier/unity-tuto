@@ -45,7 +45,7 @@ public class GenerateLevel {
   }
 
   static List<List<Area>> GetLeavesArray() {
-    Area fullMap = new Area(new Vector2Int(0, 0), new Vector2Int(Constants.GridWidth, Constants.GridHeight));
+    Area fullMap = new Area(new Vector2Int(0, 0), new Vector2Int(Constants.GRID_WIDTH, Constants.GRID_HEIGHT));
 
     List<Area> leaves = new List<Area>();
     leaves.Add(fullMap);
@@ -191,7 +191,7 @@ public class GenerateLevel {
 
   static public Tile[,] GenerateMap(World world, Action<Tile> tileChangedCb) {
     // Get an empty map
-    Tile[,] emptyMap = CreateEmptyMap(world, Constants.GridWidth, Constants.GridHeight, tileChangedCb);
+    Tile[,] emptyMap = CreateEmptyMap(world, Constants.GRID_WIDTH, Constants.GRID_HEIGHT, tileChangedCb);
     return emptyMap;
   }
 
@@ -210,6 +210,9 @@ public class GenerateLevel {
 
     // Connect rooms
     ConnectAllLeaves(world, leavesArray);
+
+    // Spawn character
+    world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
   }
 
 }

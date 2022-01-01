@@ -17,9 +17,6 @@ public class CharacterSpriteController : MonoBehaviour {
     characterGameObjectMap = new Dictionary<Character, GameObject>();
 
     world.RegisterCharacterCreated(OnCharacterCreated);
-
-    // DEBUG
-    Character c = world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
   }
 
   void LoadSprites() {
@@ -45,6 +42,8 @@ public class CharacterSpriteController : MonoBehaviour {
     sr.sortingLayerName = "Characters";
 
     c.RegisterOnChangedCallback(OnCharacterChanged);
+
+    Debug.Log("Update visibility");
   }
 
   void OnCharacterChanged(Character c) {

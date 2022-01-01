@@ -5,23 +5,18 @@
 - [x] Move camera with keyboard
 - [x] Increase camera move speed based on zoom level
 - [x] Map generation
-  - [x] GenerateMap as a static function
-  - [x] Remove walls
 - [ ] Generate the base
-- [ ] Select character
-  - [x] Display build icon on mouse hover
-  - [x] Fill in button colors when mode active
-  - [x] Switch to build mode when clicking build buttons
-  - [x] Switch back to select mode when press escape
-  - [ ] Top bar with characters to select
+- [ ] Top bar with characters to select
 - [x] Move character
-- [x] Fix the move warnings
 - [x] Pause / Unpause
-  - [x] Toggle on "P" press
-  - [x] Allow moving camera when paused
-  - [x] Show pause state on screen (make keyboard and button call same functions)
-- [ ] Cancel current move when click to move somewhere else
 - [ ] Fog of war
+  - [ ] Update on character creation
+  - [ ] Update when charcter change currentTile
+- [ ] Create tilePath earlier to prevent firt move lag
+- [ ] Way to run unit tests
+- [ ] Ennemies
+- [ ] Show visual on where characters intend to move
+- [ ] Cancel current move when click to move somewhere else
 - [ ] Hover on tiles to get info
 - [ ] WASD for english keyboards
 

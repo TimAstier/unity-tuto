@@ -56,6 +56,9 @@ public class TileSpriteController : MonoBehaviour {
   // This function should be called automatically whenever a tile's data gets changed.
   void OnTileChanged(Tile tile_data) {
 
+    // TODO: Manage t triger this on visibility update
+    Debug.Log("Tile changed");
+
     if (tileGameObjectMap.ContainsKey(tile_data) == false) {
       Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
       return;
@@ -75,5 +78,8 @@ public class TileSpriteController : MonoBehaviour {
     } else {
       Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
     }
+
+    FogOfWarController fc = GameObject.FindObjectOfType<FogOfWarController>();
+    fc.UpdateVisibility(tile_data.visibility, new Vector2Int(tile_data.X, tile_data.Y));
   }
 }

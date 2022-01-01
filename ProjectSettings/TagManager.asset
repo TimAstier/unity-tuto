@@ -56,3 +56,6 @@ TagManager:
   - name: TileUI
     uniqueID: 3521671753
     locked: 0
+  - name: FogOfWar
+    uniqueID: 907564459
+    locked: 0
