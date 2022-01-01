@@ -11,18 +11,21 @@ static class ButtonName {
 
 public class BuildModeController : MonoBehaviour {
 
+  public Sprite pauseSprite;
+  public Sprite playSprite;
+
   bool buildModeIsObjects = false;
   TileType buildModeTile = TileType.Floor;
   string buildModeObjectType;
   string selectedButton;
   string previousSelectedButton;
 
-
   void Start() {
   }
 
   void Update() {
 
+    // Update build buttons state
     if (WorldController.Instance.world.gameMode != GameMode.Build) {
       if (selectedButton != null) {
         GameObject go = GameObject.Find(selectedButton);
@@ -71,6 +74,18 @@ public class BuildModeController : MonoBehaviour {
     buildModeObjectType = objectType;
     previousSelectedButton = selectedButton;
     selectedButton = ButtonName.BuildWall;
+  }
+
+
+  public void HandleTogglePause() {
+    TimeController.TogglePause();
+    GameObject pauseButton = GameObject.Find("Button -- TogglePause");
+    float timeScale = Time.timeScale;
+    if (timeScale == 0f) {
+      pauseButton.GetComponent<Image>().sprite = playSprite;
+    } else if (timeScale == 1f) {
+      pauseButton.GetComponent<Image>().sprite = pauseSprite;
+    }
   }
 
   public void DoPathfindingTest() {

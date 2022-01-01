@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,6 +32,7 @@ public class MouseController : MonoBehaviour {
 
     UpdateMouseHover(gameMode);
     UpdateDragging(gameMode);
+    UpdateMoveCharacter(gameMode);
 
     UpdateCameraMovement();
 
@@ -143,13 +145,23 @@ public class MouseController : MonoBehaviour {
   }
 
   void UpdateCameraMovement() {
-    if (Input.GetMouseButton(1) || Input.GetMouseButton(2)) {
-      Vector3 diff = lastFramePosition - currFramePosition;
-      Camera.main.transform.Translate(diff);
-    }
     Camera.main.orthographicSize -= Camera.main.orthographicSize * Input.GetAxis("Mouse ScrollWheel");
     Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Constants.CAMERA_MIN_ZOOM, Constants.CAMERA_MAX_ZOOM);
   }
 
+  void UpdateMoveCharacter(GameMode gameMode) {
+    if (gameMode != GameMode.Select) {
+      return;
+    }
+
+    if (Input.GetMouseButtonUp(1)) {
+      int currTileX = Mathf.FloorToInt(currFramePosition.x);
+      int currTileY = Mathf.FloorToInt(currFramePosition.y);
+      Character character = WorldController.Instance.world.characters.First();
+      if (character != null) {
+        character.SetDestination(WorldController.Instance.world.GetTileAt(currTileX, currTileY));
+      }
+    }
+  }
 
 }

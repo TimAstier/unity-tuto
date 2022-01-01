@@ -14,8 +14,13 @@
   - [x] Switch to build mode when clicking build buttons
   - [x] Switch back to select mode when press escape
   - [ ] Top bar with characters to select
-- [ ] Move character
-- [ ] Pause / Unpause
+- [x] Move character
+- [x] Fix the move warnings
+- [x] Pause / Unpause
+  - [x] Toggle on "P" press
+  - [x] Allow moving camera when paused
+  - [x] Show pause state on screen (make keyboard and button call same functions)
+- [ ] Cancel current move when click to move somewhere else
 - [ ] Fog of war
 - [ ] Hover on tiles to get info
 - [ ] WASD for english keyboards
@@ -29,7 +34,7 @@
 - Camp needs management and is threatened
 - Move around and fight Rimworld style.
 - Every day the maze is reset.
-- Damage system as RimWorld
+- Damage system as RimWorld?
 - Tower-defence style base defense.
 - Chess-like pawn moves to example the base limits (need to build new pawns, and can be moved once a day).
 - Base building in the maze/dungeon

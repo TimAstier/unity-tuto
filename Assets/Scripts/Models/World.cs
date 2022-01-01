@@ -19,7 +19,7 @@ public class World {
 
   public GameMode gameMode { get; protected set; } = GameMode.Select;
 
-  List<Character> characters;
+  public List<Character> characters { get; protected set; }
 
   // The pathfinding graph used to navigate our world map.
   public Path_TileGraph tileGraph;

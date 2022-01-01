@@ -149,10 +149,6 @@ public class Character {
   }
 
   public void SetDestination(Tile tile) {
-    if (currTile.IsNeighbour(tile, true) == false) {
-      Debug.Log("Character::SetDestination -- Our destination tile isn't actually our neighbour.");
-    }
-
     destTile = tile;
   }
 
