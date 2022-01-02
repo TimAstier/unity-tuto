@@ -20,10 +20,10 @@ public class Tile {
     set {
       TileType oldType = _type;
       _type = value;
-      // Call the callback and let things know we've changed.
+      // Call the callback and let things know we've changed type.
 
-      if (cbTileChanged != null && oldType != _type) {
-        cbTileChanged(this);
+      if (cbTileTypeChanged != null && oldType != _type) {
+        cbTileTypeChanged(this);
       }
     }
   }
@@ -61,6 +61,7 @@ public class Tile {
   }
 
   // The function we callback any time our tile's data changes
+  Action<Tile> cbTileTypeChanged;
   Action<Tile> cbTileChanged;
 
   /// <summary>
@@ -75,18 +76,21 @@ public class Tile {
     this.Y = y;
   }
 
-  /// <summary>
-  /// Register a function to be called back when our tile change.
-  /// </summary>
+
   public void RegisterTileChangedCallback(Action<Tile> callback) {
     cbTileChanged += callback;
   }
 
-  /// <summary>
-  /// Unregister a callback.
-  /// </summary>
-  public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
+  public void UnregisterTileChangedCallback(Action<Tile> callback) {
     cbTileChanged -= callback;
+  }
+
+  public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
+    cbTileTypeChanged += callback;
+  }
+
+  public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
+    cbTileTypeChanged -= callback;
   }
 
   public bool PlaceFurniture(Furniture objInstance) {
@@ -160,7 +164,14 @@ public class Tile {
 
   public void SetVisibility(TileVisibility visibility) {
     this.visibility = visibility;
-    cbTileChanged(this);
+    ReportTileChanged();
+  }
+
+  private void ReportTileChanged() {
+    // Call the callback and let things know we've changed.
+    if (cbTileChanged != null) {
+      cbTileChanged(this);
+    }
   }
 
 }

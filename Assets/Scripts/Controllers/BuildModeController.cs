@@ -119,6 +119,7 @@ public class BuildModeController : MonoBehaviour {
       }
 
     } else {
+      Debug.Log(buildModeTile);
       t.Type = buildModeTile;
     }
   }

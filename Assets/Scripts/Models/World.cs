@@ -35,7 +35,8 @@ public class World {
   Action<Furniture> cbFurnitureCreated;
   Action<Furniture> cbFurnitureDestroyed;
   Action<Character> cbCharacterCreated;
-  Action<Tile> cbTileChanged;
+  public Action<Tile> cbTileChanged;
+  public Action<Tile> cbTileTypeChanged;
 
   // TODO: Most likely this will be replaced with a dedicated
   // class for managing job queues (plural!) that might also
@@ -56,7 +57,7 @@ public class World {
 
     CreateFurniturePrototypes();
 
-    tiles = GenerateLevel.GenerateMap(this, this.OnTileChanged);
+    tiles = GenerateLevel.GenerateMap(this, OnTileChanged, OnTileTypeChanged);
 
     Debug.Log("World created with " + (Width * Height) + " tiles.");
 
@@ -205,13 +206,25 @@ public class World {
     cbTileChanged -= callbackfunc;
   }
 
-  // Gets called whenever ANY tile change types
+  public void RegisterTileTypeChanged(Action<Tile> callbackfunc) {
+    cbTileTypeChanged += callbackfunc;
+  }
+
+  public void UnregisterTileTypeChanged(Action<Tile> callbackfunc) {
+    cbTileTypeChanged -= callbackfunc;
+  }
+
   void OnTileChanged(Tile t) {
     if (cbTileChanged == null)
       return;
 
     cbTileChanged(t);
+  }
 
+  void OnTileTypeChanged(Tile t) {
+    if (cbTileTypeChanged == null)
+      return;
+    cbTileTypeChanged(t);
     InvalidateTileGraph();
   }
 

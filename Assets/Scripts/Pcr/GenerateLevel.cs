@@ -20,13 +20,14 @@ public class GenerateLevel {
   public const int NUMBER_0F_SPLITS = 3;
   public const int MINIMUM_ROOM_DIMENSION = 2;
 
-  static Tile[,] CreateEmptyMap(World world, int width, int height, Action<Tile> tileChangedCb) {
+  static Tile[,] CreateEmptyMap(World world, int width, int height, Action<Tile> tileChangedCb, Action<Tile> tileTypeChangedCb) {
     Tile[,] tiles = new Tile[width, height];
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         tiles[x, y] = new Tile(world, x, y);
         tiles[x, y].RegisterTileChangedCallback(tileChangedCb);
+        tiles[x, y].RegisterTileTypeChangedCallback(tileTypeChangedCb);
       }
     }
     return tiles;
@@ -189,9 +190,9 @@ public class GenerateLevel {
     }
   }
 
-  static public Tile[,] GenerateMap(World world, Action<Tile> tileChangedCb) {
+  static public Tile[,] GenerateMap(World world, Action<Tile> tileChangedCb, Action<Tile> tileTypeChangedCb) {
     // Get an empty map
-    Tile[,] emptyMap = CreateEmptyMap(world, Constants.GRID_WIDTH, Constants.GRID_HEIGHT, tileChangedCb);
+    Tile[,] emptyMap = CreateEmptyMap(world, Constants.GRID_WIDTH, Constants.GRID_HEIGHT, tileChangedCb, tileTypeChangedCb);
     return emptyMap;
   }
 

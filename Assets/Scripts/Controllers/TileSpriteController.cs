@@ -48,13 +48,10 @@ public class TileSpriteController : MonoBehaviour {
       }
     }
 
-    // Register our callback so that our GameObject gets updated whenever
-    // the tile's type changes.
-    world.RegisterTileChanged(OnTileChanged);
+    world.RegisterTileTypeChanged(OnTileTypeChanged);
   }
 
-  // This function should be called automatically whenever a tile's data gets changed.
-  void OnTileChanged(Tile tile_data) {
+  void OnTileTypeChanged(Tile tile_data) {
     if (tileGameObjectMap.ContainsKey(tile_data) == false) {
       Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
       return;

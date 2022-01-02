@@ -11,10 +11,10 @@ public class FogOfWarController : MonoBehaviour {
 
   // Start is called before the first frame update
   void Start() {
-    WorldController.Instance.world.RegisterTileChanged(OnTileChanged);
-    WorldController.Instance.world.RegisterCharacterCreated(OnCharacterCreated);
-
     if (Constants.ENABLE_FOW == true) {
+      WorldController.Instance.world.RegisterTileChanged(OnTileChanged);
+      WorldController.Instance.world.RegisterCharacterCreated(OnCharacterCreated);
+
       fogOfWarTilememap.size = new Vector3Int(Constants.GRID_WIDTH, Constants.GRID_WIDTH, 0);
       fogOfWarTilememap.BoxFill(new Vector3Int(0, 0, 0), darkTile, 0, 0, Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
     }
@@ -40,7 +40,6 @@ public class FogOfWarController : MonoBehaviour {
 
   void OnCharacterCreated(Character character) {
     Tile tile_data = character.currTile;
-    // TODO: Call some more advanced update visibility function
     tile_data.SetVisibility(TileVisibility.Clear);
   }
 }
