@@ -76,9 +76,9 @@ public class Tile {
   }
 
   /// <summary>
-  /// Register a function to be called back when our tile type changes.
+  /// Register a function to be called back when our tile change.
   /// </summary>
-  public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
+  public void RegisterTileChangedCallback(Action<Tile> callback) {
     cbTileChanged += callback;
   }
 
@@ -160,6 +160,7 @@ public class Tile {
 
   public void SetVisibility(TileVisibility visibility) {
     this.visibility = visibility;
+    cbTileChanged(this);
   }
 
 }

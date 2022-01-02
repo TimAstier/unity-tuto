@@ -42,8 +42,6 @@ public class CharacterSpriteController : MonoBehaviour {
     sr.sortingLayerName = "Characters";
 
     c.RegisterOnChangedCallback(OnCharacterChanged);
-
-    Debug.Log("Update visibility");
   }
 
   void OnCharacterChanged(Character c) {

@@ -10,8 +10,9 @@
 - [x] Move character
 - [x] Pause / Unpause
 - [ ] Fog of war
-  - [ ] Update on character creation
-  - [ ] Update when charcter change currentTile
+  - [x] Update on character creation
+  - [x] Update when charcter change currentTile
+  - [ ] TODO: Call some more advanced update visibility function
 - [ ] Create tilePath earlier to prevent firt move lag
 - [ ] Way to run unit tests
 - [ ] Ennemies

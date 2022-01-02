@@ -96,21 +96,10 @@ public class Character {
       }
     }
 
-    /*		if(pathAStar.Length() == 1) {
-          return;
-        }
-    */
-    // At this point we should have a valid nextTile to move to.
-
-    // What's the total distance from point A to point B?
-    // We are going to use Euclidean distance FOR NOW...
-    // But when we do the pathfinding system, we'll likely
-    // switch to something like Manhattan or Chebyshev distance
     float distToTravel = Mathf.Sqrt(
       Mathf.Pow(currTile.X - nextTile.X, 2) +
       Mathf.Pow(currTile.Y - nextTile.Y, 2)
     );
-
 
     // How much distance can be travel this Update?
     float distThisFrame = speed * deltaTime;
@@ -122,16 +111,11 @@ public class Character {
     movementPercentage += percThisFrame;
 
     if (movementPercentage >= 1) {
-      Debug.Log("Update visibility");
       currTile = nextTile;
+      // TODO: Call some more advanced update visibility function
       currTile.SetVisibility(TileVisibility.Clear);
-      // TODO: Instead of doing this, find a way to use callbacks to have FowController updating the view
-      // FogOfWarController fc = GameObject.FindObjectOfType<FogOfWarController>();
-      // fc.UpdateVisibility(TileVisibility.Clear, new Vector2Int(currTile.X, currTile.Y));
       movementPercentage = 0;
     }
-
-
   }
 
   public void Update(float deltaTime) {

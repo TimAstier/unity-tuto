@@ -26,7 +26,7 @@ public class GenerateLevel {
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         tiles[x, y] = new Tile(world, x, y);
-        tiles[x, y].RegisterTileTypeChangedCallback(tileChangedCb);
+        tiles[x, y].RegisterTileChangedCallback(tileChangedCb);
       }
     }
     return tiles;

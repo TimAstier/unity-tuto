@@ -205,7 +205,7 @@ public class World {
     cbTileChanged -= callbackfunc;
   }
 
-  // Gets called whenever ANY tile changes
+  // Gets called whenever ANY tile change types
   void OnTileChanged(Tile t) {
     if (cbTileChanged == null)
       return;
