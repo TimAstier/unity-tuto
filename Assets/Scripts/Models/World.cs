@@ -74,12 +74,6 @@ public class World {
     }
   }
 
-  /// <summary>
-  /// Gets the tile data at x and y.
-  /// </summary>
-  /// <returns>The <see cref="Tile"/>.</returns>
-  /// <param name="x">The x coordinate.</param>
-  /// <param name="y">The y coordinate.</param>
   public Tile GetTileAt(int x, int y) {
     if (x >= Constants.GRID_WIDTH || x < 0 || y >= Constants.GRID_HEIGHT || y < 0) {
       return null;
@@ -133,5 +127,26 @@ public class World {
 
   public void SetGameMode(GameMode gameMode) {
     this.gameMode = gameMode;
+  }
+
+  List<Tile> GetTilesInCircle(Vector2Int origin, float radius) {
+    // TODO: Fix this
+    List<Tile> result = new List<Tile>();
+    for (int x = origin.x - Mathf.CeilToInt(radius); x <= origin.x + Mathf.CeilToInt(radius); x++) {
+      for (int y = origin.y - Mathf.CeilToInt(radius); y <= origin.y + Mathf.CeilToInt(radius); y++) {
+        Tile tile = this.GetTileAt(x, y);
+        if (tile != null) {
+          result.Add(tile);
+        }
+      }
+    }
+    return result;
+  }
+
+  public void UpdateTilesVisibility(Tile origin, int radius) {
+    List<Tile> tiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);
+    foreach (Tile t in tiles) {
+      t.SetVisibility(TileVisibility.Clear);
+    }
   }
 }

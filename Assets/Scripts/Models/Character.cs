@@ -97,8 +97,7 @@ public class Character {
 
     if (movementPercentage >= 1) {
       currTile = nextTile;
-      // TODO: Call some more advanced update visibility function
-      currTile.SetVisibility(TileVisibility.Clear);
+      GameEvents.current.CharacterMoved(this);
       movementPercentage = 0;
     }
   }

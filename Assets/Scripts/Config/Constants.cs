@@ -4,4 +4,9 @@ public class Constants {
   public const float CAMERA_MIN_ZOOM = 3f;
   public const float CAMERA_MAX_ZOOM = 50f;
   public const bool ENABLE_FOW = true;
+
+  // Circles on grid look nicer with N.5 radius.
+  // See: https://www.redblobgames.com/grids/circle-drawing/#aesthetics
+  public const float MAX_CLEAR_VISIBILITY = 6.5f;
+  public const float MAX_DIM_VISIBILITY = 8.5f;
 }

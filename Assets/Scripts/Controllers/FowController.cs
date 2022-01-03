@@ -46,7 +46,6 @@ public class FowController : MonoBehaviour {
   }
 
   void OnCharacterCreated(Character character) {
-    Tile tile_data = character.currTile;
-    tile_data.SetVisibility(TileVisibility.Clear);
+    GameEvents.current.CharacterMoved(character);
   }
 }

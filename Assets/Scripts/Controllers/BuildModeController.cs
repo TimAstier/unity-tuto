@@ -25,6 +25,7 @@ public class BuildModeController : MonoBehaviour {
 
   void Update() {
 
+    // TODO: Do this via game events instead of calling it every frame
     // Update build buttons state
     if (WorldController.Instance.world.gameMode != GameMode.Build) {
       if (selectedButton != null) {

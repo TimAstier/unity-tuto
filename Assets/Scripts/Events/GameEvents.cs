@@ -59,6 +59,13 @@ public class GameEvents : MonoBehaviour {
     }
   }
 
+  public event Action<Character> onCharacterMoved;
+  public void CharacterMoved(Character character) {
+    if (onCharacterMoved != null) {
+      onCharacterMoved(character);
+    }
+  }
+
   public event Action<Job> onJobCreated;
   public void JobCreated(Job job) {
     if (onJobCreated != null) {

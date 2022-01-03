@@ -18,6 +18,7 @@ public class WorldController : MonoBehaviour {
     if (Instance != null) {
       Debug.LogError("There should never be two world controllers.");
     }
+
     Instance = this;
 
     // Create a world
@@ -25,6 +26,8 @@ public class WorldController : MonoBehaviour {
 
     // Center the Camera
     Camera.main.transform.position = new Vector3(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, Camera.main.transform.position.z);
+
+    GameEvents.current.onCharacterMoved += OnCharacterMoved;
   }
 
   void Update() {
@@ -35,6 +38,10 @@ public class WorldController : MonoBehaviour {
     int x = Mathf.FloorToInt(coord.x);
     int y = Mathf.FloorToInt(coord.y);
     return world.GetTileAt(x, y);
+  }
+
+  void OnCharacterMoved(Character character) {
+    world.UpdateTilesVisibility(character.currTile, 1);
   }
 
 }
