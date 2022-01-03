@@ -37,8 +37,6 @@ public class Furniture {
     get; protected set;
   }
 
-  Action<Furniture> cbOnChanged;
-
   Func<Tile, bool> funcPositionValidation;
 
   // TODO: Implement larger objects
@@ -101,34 +99,24 @@ public class Furniture {
 
       t = tile.world.GetTileAt(x, y + 1);
       if (t != null && t.furniture != null && t.furniture.objectType == obj.objectType) {
-        // We have a Northern Neighbour with the same object type as us, so
-        // tell it that it has changed by firing is callback.
-        t.furniture.cbOnChanged(t.furniture);
+        GameEvents.current.FurnitureChanged(t.furniture);
       }
       t = tile.world.GetTileAt(x + 1, y);
       if (t != null && t.furniture != null && t.furniture.objectType == obj.objectType) {
-        t.furniture.cbOnChanged(t.furniture);
+        GameEvents.current.FurnitureChanged(t.furniture);
       }
       t = tile.world.GetTileAt(x, y - 1);
       if (t != null && t.furniture != null && t.furniture.objectType == obj.objectType) {
-        t.furniture.cbOnChanged(t.furniture);
+        GameEvents.current.FurnitureChanged(t.furniture);
       }
       t = tile.world.GetTileAt(x - 1, y);
       if (t != null && t.furniture != null && t.furniture.objectType == obj.objectType) {
-        t.furniture.cbOnChanged(t.furniture);
+        GameEvents.current.FurnitureChanged(t.furniture);
       }
 
     }
 
     return obj;
-  }
-
-  public void RegisterOnChangedCallback(Action<Furniture> callbackFunc) {
-    cbOnChanged += callbackFunc;
-  }
-
-  public void UnregisterOnChangedCallback(Action<Furniture> callbackFunc) {
-    cbOnChanged -= callbackFunc;
   }
 
   public bool IsValidPosition(Tile t) {

@@ -48,7 +48,7 @@ public class TileSpriteController : MonoBehaviour {
       }
     }
 
-    world.RegisterTileTypeChanged(OnTileTypeChanged);
+    GameEvents.current.onTileTypeChanged += OnTileTypeChanged;
   }
 
   void OnTileTypeChanged(Tile tile_data) {

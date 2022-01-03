@@ -16,7 +16,8 @@ public class CharacterSpriteController : MonoBehaviour {
 
     characterGameObjectMap = new Dictionary<Character, GameObject>();
 
-    world.RegisterCharacterCreated(OnCharacterCreated);
+    GameEvents.current.onCharacterCreated += OnCharacterCreated;
+    GameEvents.current.onCharacterChanged += OnCharacterChanged;
   }
 
   void LoadSprites() {
@@ -40,8 +41,6 @@ public class CharacterSpriteController : MonoBehaviour {
     SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
     sr.sprite = characterSprites["p1_front"];
     sr.sortingLayerName = "Characters";
-
-    c.RegisterOnChangedCallback(OnCharacterChanged);
   }
 
   void OnCharacterChanged(Character c) {

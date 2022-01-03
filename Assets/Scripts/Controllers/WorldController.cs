@@ -12,10 +12,8 @@ public class WorldController : MonoBehaviour {
 
   public static WorldController Instance { get; protected set; }
 
-  // The world and tile data
   public World world { get; protected set; }
 
-  // Use this for initialization
   void OnEnable() {
     if (Instance != null) {
       Debug.LogError("There should never be two world controllers.");
@@ -30,9 +28,7 @@ public class WorldController : MonoBehaviour {
   }
 
   void Update() {
-    // TODO: Add pause/unpause, speed controls, etc...
     world.Update(Time.deltaTime);
-
   }
 
   /// <summary>
@@ -43,7 +39,6 @@ public class WorldController : MonoBehaviour {
   public Tile GetTileAtWorldCoord(Vector3 coord) {
     int x = Mathf.FloorToInt(coord.x);
     int y = Mathf.FloorToInt(coord.y);
-
     return world.GetTileAt(x, y);
   }
 

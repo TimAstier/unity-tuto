@@ -22,8 +22,9 @@ public class FurnitureSpriteController : MonoBehaviour {
   void Start() {
     LoadSprites();
     furnitureGameObjectMap = new Dictionary<Furniture, GameObject>();
-    world.RegisterFurnitureCreated(OnFurnitureCreated);
-    world.RegisterFurnitureDestroyed(OnFurnitureDestroyed);
+    GameEvents.current.onFurnitureCreated += OnFurnitureCreated;
+    GameEvents.current.onFurnitureChanged += OnFurnitureChanged;
+    GameEvents.current.onFurnitureDestroyed += OnFurnitureDestroyed;
   }
 
   void LoadSprites() {
@@ -47,8 +48,6 @@ public class FurnitureSpriteController : MonoBehaviour {
     SpriteRenderer sr = furn_go.AddComponent<SpriteRenderer>();
     sr.sprite = GetSpriteForFurniture(furn);
     sr.sortingLayerName = "Furnitures";
-
-    furn.RegisterOnChangedCallback(OnFurnitureChanged);
   }
 
   public void OnFurnitureDestroyed(Furniture furn) {
@@ -67,9 +66,6 @@ public class FurnitureSpriteController : MonoBehaviour {
     GameObject furn_go = furnitureGameObjectMap[furn];
     furn_go.GetComponent<SpriteRenderer>().sprite = GetSpriteForFurniture(furn);
   }
-
-
-
 
   public Sprite GetSpriteForFurniture(Furniture obj) {
     if (obj.linksToNeighbour == false) {

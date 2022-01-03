@@ -7,9 +7,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-// TileType is the base type of the tile. In some tile-based games, that might be
-// the terrain type. For us, we only need to differentiate between empty space
-// and floor.
 public enum TileType { Empty, Floor };
 public enum TileVisibility { Clear, Dim, Dark };
 
@@ -20,24 +17,16 @@ public class Tile {
     set {
       TileType oldType = _type;
       _type = value;
-      // Call the callback and let things know we've changed type.
 
-      if (cbTileTypeChanged != null && oldType != _type) {
-        cbTileTypeChanged(this);
+      if (oldType != _type) {
+        GameEvents.current.TileTypeChanged(this);
       }
     }
   }
 
   public TileVisibility visibility { get; protected set; } = TileVisibility.Dark;
-
-  // LooseObject is something like a drill or a stack of metal sitting on the floor
   Inventory inventory;
-
-  // Furniture is something like a wall, door, or sofa.
-  public Furniture furniture {
-    get; protected set;
-  }
-
+  public Furniture furniture { get; protected set; }
   // FIXME: This seems like a terrible way to flag if a job is pending
   // on a tile.  This is going to be prone to errors in set/clear.
   public Job pendingFurnitureJob;
@@ -60,74 +49,34 @@ public class Tile {
     }
   }
 
-  // The function we callback any time our tile's data changes
-  Action<Tile> cbTileTypeChanged;
-  Action<Tile> cbTileChanged;
-
-  /// <summary>
-  /// Initializes a new instance of the <see cref="Tile"/> class.
-  /// </summary>
-  /// <param name="world">A World instance.</param>
-  /// <param name="x">The x coordinate.</param>
-  /// <param name="y">The y coordinate.</param>
   public Tile(World world, int x, int y) {
     this.world = world;
     this.X = x;
     this.Y = y;
   }
 
-
-  public void RegisterTileChangedCallback(Action<Tile> callback) {
-    cbTileChanged += callback;
-  }
-
-  public void UnregisterTileChangedCallback(Action<Tile> callback) {
-    cbTileChanged -= callback;
-  }
-
-  public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
-    cbTileTypeChanged += callback;
-  }
-
-  public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
-    cbTileTypeChanged -= callback;
-  }
-
   public bool PlaceFurniture(Furniture objInstance) {
     if (objInstance == null) {
-      // We are uninstalling whatever was here before.
       furniture = null;
       return true;
     }
-
-    // objInstance isn't null
 
     if (furniture != null) {
       Debug.LogError("Trying to assign a furniture to a tile that already has one!");
       return false;
     }
 
-    // At this point, everything's fine!
-
     furniture = objInstance;
     return true;
   }
 
-  // Tells us if two tiles are adjacent.
   public bool IsNeighbour(Tile tile, bool diagOkay = false) {
-    // Check to see if we have a difference of exactly ONE between the two
-    // tile coordinates.  Is so, then we are vertical or horizontal neighbours.
     return
       Mathf.Abs(this.X - tile.X) + Mathf.Abs(this.Y - tile.Y) == 1 ||  // Check hori/vert adjacency
       (diagOkay && (Mathf.Abs(this.X - tile.X) == 1 && Mathf.Abs(this.Y - tile.Y) == 1)) // Check diag adjacency
       ;
   }
 
-  /// <summary>
-  /// Gets the neighbours.
-  /// </summary>
-  /// <returns>The neighbours.</returns>
-  /// <param name="diagOkay">Is diagonal movement okay?.</param>
   public Tile[] GetNeighbours(bool diagOkay = false) {
     Tile[] ns;
 
@@ -164,14 +113,7 @@ public class Tile {
 
   public void SetVisibility(TileVisibility visibility) {
     this.visibility = visibility;
-    ReportTileChanged();
-  }
-
-  private void ReportTileChanged() {
-    // Call the callback and let things know we've changed.
-    if (cbTileChanged != null) {
-      cbTileChanged(this);
-    }
+    GameEvents.current.TileChanged(this);
   }
 
 }

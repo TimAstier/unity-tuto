@@ -15,20 +15,12 @@ public class Character {
     }
   }
 
-  public Tile currTile {
-    get; protected set;
-  }
-
-
-  Tile destTile;  // If we aren't moving, then destTile = currTile
-  Tile nextTile;  // The next tile in the pathfinding sequence
+  public Tile currTile { get; protected set; }
+  Tile nextTile;
+  Tile destTile;
   Path_AStar pathAStar;
   float movementPercentage; // Goes from 0 to 1 as we move from currTile to nextTile
-
   float speed = 5f; // Tiles per second
-
-  Action<Character> cbCharacterChanged;
-
   Job myJob;
 
   public Character(Tile tile) {
@@ -36,23 +28,16 @@ public class Character {
   }
 
   void Update_DoJob(float deltaTime) {
-    // Do I have a job?
     if (myJob == null) {
-      // Grab a new job.
       myJob = currTile.world.jobQueue.Dequeue();
-
       if (myJob != null) {
-        // We have a job!
-
         // TODO: Check to see if the job is REACHABLE!
-
         destTile = myJob.tile;
         myJob.RegisterJobCompleteCallback(OnJobEnded);
         myJob.RegisterJobCancelCallback(OnJobEnded);
       }
     }
 
-    // Are we there yet?
     if (myJob != null && currTile == myJob.tile) {
       //if(pathAStar != null && pathAStar.Length() == 1)	{ // We are adjacent to the job site.
       if (myJob != null) {
@@ -119,25 +104,13 @@ public class Character {
   }
 
   public void Update(float deltaTime) {
-
     Update_DoJob(deltaTime);
     Update_DoMovement(deltaTime);
-
-    if (cbCharacterChanged != null)
-      cbCharacterChanged(this);
-
+    GameEvents.current.CharacterChanged(this);
   }
 
   public void SetDestination(Tile tile) {
     destTile = tile;
-  }
-
-  public void RegisterOnChangedCallback(Action<Character> cb) {
-    cbCharacterChanged += cb;
-  }
-
-  public void UnregisterOnChangedCallback(Action<Character> cb) {
-    cbCharacterChanged -= cb;
   }
 
   void OnJobEnded(Job j) {
