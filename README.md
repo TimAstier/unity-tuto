@@ -5,6 +5,7 @@
 - [x] Move camera with keyboard
 - [x] Increase camera move speed based on zoom level
 - [x] Map generation
+- [x] Unregister events
 - [ ] Generate the base
 - [ ] Top bar with characters to select
 - [x] Move character

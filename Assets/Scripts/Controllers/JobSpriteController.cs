@@ -9,7 +9,11 @@ public class JobSpriteController : MonoBehaviour {
   void Start() {
     jobGameObjectMap = new Dictionary<Job, GameObject>();
     fsc = GameObject.FindObjectOfType<FurnitureSpriteController>();
-    WorldController.Instance.world.jobQueue.RegisterJobCreationCallback(OnJobCreated);
+    GameEvents.current.onJobCreated += OnJobCreated;
+  }
+
+  private void OnDestroy() {
+    GameEvents.current.onJobCreated -= OnJobCreated;
   }
 
   void OnJobCreated(Job job) {

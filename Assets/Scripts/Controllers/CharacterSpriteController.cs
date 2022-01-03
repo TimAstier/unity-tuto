@@ -20,6 +20,11 @@ public class CharacterSpriteController : MonoBehaviour {
     GameEvents.current.onCharacterChanged += OnCharacterChanged;
   }
 
+  private void OnDestroy() {
+    GameEvents.current.onCharacterCreated -= OnCharacterCreated;
+    GameEvents.current.onCharacterChanged -= OnCharacterChanged;
+  }
+
   void LoadSprites() {
     characterSprites = new Dictionary<string, Sprite>();
     Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Characters/");

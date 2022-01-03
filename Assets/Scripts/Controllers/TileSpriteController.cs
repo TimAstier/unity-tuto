@@ -51,16 +51,20 @@ public class TileSpriteController : MonoBehaviour {
     GameEvents.current.onTileTypeChanged += OnTileTypeChanged;
   }
 
+  private void OnDestroy() {
+    GameEvents.current.onTileTypeChanged -= OnTileTypeChanged;
+  }
+
   void OnTileTypeChanged(Tile tile_data) {
     if (tileGameObjectMap.ContainsKey(tile_data) == false) {
-      Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
+      Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary?");
       return;
     }
 
     GameObject tile_go = tileGameObjectMap[tile_data];
 
     if (tile_go == null) {
-      Debug.LogError("tileGameObjectMap's returned GameObject is null -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
+      Debug.LogError("tileGameObjectMap's returned GameObject is null -- did you forget to add the tile to the dictionary?");
       return;
     }
 

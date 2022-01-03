@@ -27,6 +27,12 @@ public class FurnitureSpriteController : MonoBehaviour {
     GameEvents.current.onFurnitureDestroyed += OnFurnitureDestroyed;
   }
 
+  private void OnDestroy() {
+    GameEvents.current.onFurnitureCreated -= OnFurnitureCreated;
+    GameEvents.current.onFurnitureChanged -= OnFurnitureChanged;
+    GameEvents.current.onFurnitureDestroyed -= OnFurnitureDestroyed;
+  }
+
   void LoadSprites() {
     furnitureSprites = new Dictionary<string, Sprite>();
     Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Furniture/");

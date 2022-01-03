@@ -10,6 +10,11 @@ public class SoundController : MonoBehaviour {
     GameEvents.current.onFurnitureCreated += OnFurnitureCreated;
   }
 
+  private void OnDestroy() {
+    GameEvents.current.onTileTypeChanged -= OnTileTypeChanged;
+    GameEvents.current.onFurnitureCreated -= OnFurnitureCreated;
+  }
+
   // Update is called once per frame
   void Update() {
     soundCooldown -= Time.deltaTime;
@@ -37,4 +42,5 @@ public class SoundController : MonoBehaviour {
     AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
     soundCooldown = 0.1f;
   }
+
 }

@@ -6,8 +6,6 @@ using UnityEngine;
 public class GameEvents : MonoBehaviour {
   public static GameEvents current;
 
-  // TODO: DRY cbs checks
-
   private void Awake() {
     current = this;
   }
@@ -58,6 +56,13 @@ public class GameEvents : MonoBehaviour {
   public void CharacterChanged(Character character) {
     if (onCharacterChanged != null) {
       onCharacterChanged(character);
+    }
+  }
+
+  public event Action<Job> onJobCreated;
+  public void JobCreated(Job job) {
+    if (onJobCreated != null) {
+      onJobCreated(job);
     }
   }
 }

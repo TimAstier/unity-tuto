@@ -82,7 +82,6 @@ public class World {
   /// <param name="y">The y coordinate.</param>
   public Tile GetTileAt(int x, int y) {
     if (x >= Constants.GRID_WIDTH || x < 0 || y >= Constants.GRID_HEIGHT || y < 0) {
-      Debug.LogError("Tile (" + x + "," + y + ") is out of range.");
       return null;
     }
     return tiles[x, y];

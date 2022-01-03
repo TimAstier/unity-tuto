@@ -543,6 +543,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791498406}
   m_CullTransparentMesh: 1
+--- !u!1 &804343620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 804343622}
+  - component: {fileID: 804343621}
+  m_Layer: 0
+  m_Name: Game Event System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &804343621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804343620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77289541e79cb42e3899d457f1ea6ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &804343622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804343620}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.258684, y: -1.9730617, z: -0.9120408}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &883689539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1092,7 @@ GameObject:
   - component: {fileID: 1054560257}
   - component: {fileID: 1054560256}
   m_Layer: 0
-  m_Name: FogOfWar
+  m_Name: FowTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1360,7 +1403,7 @@ GameObject:
   - component: {fileID: 1155294833}
   - component: {fileID: 1155294834}
   m_Layer: 0
-  m_Name: FogOfWarController
+  m_Name: FowController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1392,7 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3e3cbf23f26498eaaf03eef285cb53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fogOfWarTilememap: {fileID: 1054560257}
+  fowTilemap: {fileID: 1054560257}
   dimTile: {fileID: 11400000, guid: fa2b7ff4757bd410eb5a71ad4bab77c0, type: 2}
   darkTile: {fileID: 11400000, guid: 33ef0adc2a5bf4c7fb5aa7fa1ff4eefb, type: 2}
 --- !u!1 &1234004929
