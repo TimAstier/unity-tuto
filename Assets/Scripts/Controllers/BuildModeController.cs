@@ -121,6 +121,7 @@ public class BuildModeController : MonoBehaviour {
 
     } else {
       t.Type = buildModeTile;
+      WorldController.Instance.world.InvalidateTileGraph();
     }
   }
 }

@@ -135,7 +135,6 @@ public class MouseController : MonoBehaviour {
       for (int x = start_x; x <= end_x; x++) {
         for (int y = start_y; y <= end_y; y++) {
           Tile t = WorldController.Instance.world.GetTileAt(x, y);
-
           if (t != null) {
             bmc.DoBuild(t);
           }

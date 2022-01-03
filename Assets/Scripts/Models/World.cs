@@ -150,6 +150,9 @@ public class World {
 
   public void UpdateTilesVisibility(Tile origin, int radius) {
     // TODO: DRY if possible
+    // TODO: Any way to avoid three loops?
+
+    // Clear tiles
     List<Tile> clearTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);
     foreach (Tile t in clearTiles) {
       List<Vector2Int> inBetweenPositions = GridUtils.Line(new Vector2Int(t.X, t.Y), new Vector2Int(origin.X, origin.Y));
@@ -163,10 +166,13 @@ public class World {
 
       if (opaquePositions.Count == 0 || (opaquePositions.Count == 1 && t.CanSeeThrough() == false)) {
         t.SetVisibility(TileVisibility.Clear);
+      } else {
+        t.SetVisibility(TileVisibility.Dark);
       }
 
     }
 
+    // Dim tiles
     List<Tile> candidateDimTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_DIM_VISIBILITY);
     foreach (Tile t in candidateDimTiles) {
       if (clearTiles.Contains(t)) {
@@ -184,7 +190,19 @@ public class World {
       });
       if (opaquePositions.Count == 0 || (opaquePositions.Count == 1 && t.CanSeeThrough() == false)) {
         t.SetVisibility(TileVisibility.Dim);
+      } else {
+        t.SetVisibility(TileVisibility.Dark);
       }
+    }
+
+    // Darken tiles around
+    // NOTE: We use a "+2" circle as "+1" fails to work for four diagonal tiles.
+    List<Tile> toDarkenTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_DIM_VISIBILITY + 2);
+    foreach (Tile t in toDarkenTiles) {
+      if (candidateDimTiles.Contains(t)) {
+        continue;
+      }
+      t.SetVisibility(TileVisibility.Dark);
     }
   }
 }

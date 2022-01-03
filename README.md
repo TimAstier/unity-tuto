@@ -6,17 +6,21 @@
 - [x] Increase camera move speed based on zoom level
 - [x] Map generation
 - [x] Unregister events
-- [ ] Generate the base
-- [ ] Top bar with characters to select
 - [x] Move character
 - [x] Pause / Unpause
-- [ ] Fog of war
+- [x] Fog of war
   - [x] Update on character creation
   - [x] Update when charcter change currentTile
   - [x] Call some more advanced update visibility function
   - [x] Show walls
-  - [ ] Reset tiles that go out of vision
+  - [x] Reset tiles that go out of vision
+  - [x] Reset tiles in the diagonals
+- [ ] Another tile type for "Empty" cells?
+- [ ] Generate the base
+- [ ] Top bar with characters to select
+- [ ] Try to run several characters
 - [ ] Create tilePath earlier to prevent firt move lag
+- [ ] Explored tiles
 - [ ] Way to run unit tests
 - [ ] Ennemies
 - [ ] Show visual on where characters intend to move
