@@ -100,10 +100,9 @@ public class GenerateLevel {
     for (int i = area.origin.x; i <= area.end.x; i++) {
       for (int j = area.origin.y; j <= area.end.y; j++) {
         if (i == area.origin.x || i == area.end.x || j == area.origin.y || j == area.end.y) {
-          map[i, j].Type = TileType.Floor;
-          world.PlaceFurniture("Wall", map[i, j]);
+          // Do nothing, there is already a wall by default and this is the border of the room
         } else {
-          map[i, j].Type = TileType.Floor;
+          world.DestroyFurniture(world.tiles[i, j]);
         }
       }
     }
@@ -162,7 +161,6 @@ public class GenerateLevel {
 
     // Dig tunnel between the two positions
     foreach (Vector2Int position in positions) {
-      world.tiles[position[1], position[0]].Type = TileType.Floor;
       world.DestroyFurniture(world.tiles[position[1], position[0]]);
     }
   }
@@ -195,6 +193,14 @@ public class GenerateLevel {
   }
 
   static public void CreateRandomLevel(World world) {
+
+    for (int x = 0; x < Constants.GRID_WIDTH; x++) {
+      for (int y = 0; y < Constants.GRID_HEIGHT; y++) {
+        world.tiles[x, y].Type = TileType.Floor;
+        world.PlaceFurniture("Wall", world.tiles[x, y]);
+      }
+    }
+
     // Cut empty map into leaves using Binary Space Partitioning (BSP) Trees
     List<List<Area>> leavesArray = GetLeavesArray();
 
@@ -202,16 +208,20 @@ public class GenerateLevel {
     List<Area> rooms = leavesArray[NUMBER_0F_SPLITS].Select(leaf => GetRandomAreaWithinArea(leaf)).ToList();
 
     // Place rooms on the map
-    Tile[,] resultMap = world.tiles;
     foreach (Area room in rooms) {
-      PlaceRectangleOnMap(world, resultMap, room);
+      PlaceRectangleOnMap(world, world.tiles, room);
     }
 
     // Connect rooms
     ConnectAllLeaves(world, leavesArray);
 
+    // Create a "base" around the character
+    PlaceRectangleOnMap(world, world.tiles, new Area(new Vector2Int(Constants.GRID_WIDTH / 2 - 5, Constants.GRID_HEIGHT / 2 - 5), new Vector2Int(Constants.GRID_WIDTH / 2 + 5, Constants.GRID_HEIGHT / 2 + 5)));
+
     // Spawn character
     world.CreateCharacter(world.GetTileAt(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2));
+
+
   }
 
 }

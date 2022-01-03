@@ -15,8 +15,11 @@
   - [x] Show walls
   - [x] Reset tiles that go out of vision
   - [x] Reset tiles in the diagonals
-- [ ] Another tile type for "Empty" cells?
-- [ ] Generate the base
+- [x] Another tile type for "Empty" cells?
+- [x] Generate the base
+- [x] Fix the position of pause button
+- [ ] BUG: Crash when moving while paused
+- [ ] Sound on pause and unpause
 - [ ] Top bar with characters to select
 - [ ] Try to run several characters
 - [ ] Create tilePath earlier to prevent firt move lag
