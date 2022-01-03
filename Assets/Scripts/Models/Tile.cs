@@ -116,4 +116,11 @@ public class Tile {
     GameEvents.current.TileChanged(this);
   }
 
+  public bool CanSeeThrough() {
+    if (furniture != null && furniture.objectType == "Wall") {
+      return false;
+    }
+    return true;
+  }
+
 }

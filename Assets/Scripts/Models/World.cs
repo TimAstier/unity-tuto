@@ -129,13 +129,18 @@ public class World {
     this.gameMode = gameMode;
   }
 
+  // Based on https://www.redblobgames.com/grids/circle-drawing/#bounding-box
   List<Tile> GetTilesInCircle(Vector2Int origin, float radius) {
-    // TODO: Fix this
+    int top = Mathf.FloorToInt(origin.y - radius);
+    int bottom = Mathf.CeilToInt(origin.y + radius);
+    int left = Mathf.FloorToInt(origin.x - radius);
+    int right = Mathf.CeilToInt(origin.x + radius);
+
     List<Tile> result = new List<Tile>();
-    for (int x = origin.x - Mathf.CeilToInt(radius); x <= origin.x + Mathf.CeilToInt(radius); x++) {
-      for (int y = origin.y - Mathf.CeilToInt(radius); y <= origin.y + Mathf.CeilToInt(radius); y++) {
+    for (int x = left; x <= right; x++) {
+      for (int y = top; y <= bottom; y++) {
         Tile tile = this.GetTileAt(x, y);
-        if (tile != null) {
+        if (tile != null && GridUtils.IsInsideCircle(origin, new Vector2Int(x, y), radius)) {
           result.Add(tile);
         }
       }
@@ -144,9 +149,42 @@ public class World {
   }
 
   public void UpdateTilesVisibility(Tile origin, int radius) {
-    List<Tile> tiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);
-    foreach (Tile t in tiles) {
-      t.SetVisibility(TileVisibility.Clear);
+    // TODO: DRY if possible
+    List<Tile> clearTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);
+    foreach (Tile t in clearTiles) {
+      List<Vector2Int> inBetweenPositions = GridUtils.Line(new Vector2Int(t.X, t.Y), new Vector2Int(origin.X, origin.Y));
+      List<Vector2Int> opaquePositions = inBetweenPositions.FindAll(p => {
+        Tile myTile = this.GetTileAt(p.x, p.y);
+        if (myTile != null && myTile.CanSeeThrough() == false) {
+          return true;
+        }
+        return false;
+      });
+
+      if (opaquePositions.Count == 0 || (opaquePositions.Count == 1 && t.CanSeeThrough() == false)) {
+        t.SetVisibility(TileVisibility.Clear);
+      }
+
+    }
+
+    List<Tile> candidateDimTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_DIM_VISIBILITY);
+    foreach (Tile t in candidateDimTiles) {
+      if (clearTiles.Contains(t)) {
+        continue;
+      }
+
+      List<Vector2Int> inBetweenPositions = GridUtils.Line(new Vector2Int(t.X, t.Y), new Vector2Int(origin.X, origin.Y));
+      List<Vector2Int> opaquePositions = inBetweenPositions.FindAll(p => {
+        Tile myTile = this.GetTileAt(p.x, p.y);
+        if (myTile != null && myTile.CanSeeThrough() == false) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      if (opaquePositions.Count == 0 || (opaquePositions.Count == 1 && t.CanSeeThrough() == false)) {
+        t.SetVisibility(TileVisibility.Dim);
+      }
     }
   }
 }

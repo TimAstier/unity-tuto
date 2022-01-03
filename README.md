@@ -13,7 +13,9 @@
 - [ ] Fog of war
   - [x] Update on character creation
   - [x] Update when charcter change currentTile
-  - [ ] TODO: Call some more advanced update visibility function
+  - [x] Call some more advanced update visibility function
+  - [x] Show walls
+  - [ ] Reset tiles that go out of vision
 - [ ] Create tilePath earlier to prevent firt move lag
 - [ ] Way to run unit tests
 - [ ] Ennemies
