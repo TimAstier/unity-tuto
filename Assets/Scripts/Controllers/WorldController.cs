@@ -21,21 +21,16 @@ public class WorldController : MonoBehaviour {
     Instance = this;
 
     // Create a world
-    world = new World(Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
+    world = new World();
 
     // Center the Camera
-    Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
+    Camera.main.transform.position = new Vector3(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, Camera.main.transform.position.z);
   }
 
   void Update() {
     world.Update(Time.deltaTime);
   }
 
-  /// <summary>
-  /// Gets the tile at the unity-space coordinates
-  /// </summary>
-  /// <returns>The tile at world coordinate.</returns>
-  /// <param name="coord">Unity World-Space coordinates.</param>
   public Tile GetTileAtWorldCoord(Vector3 coord) {
     int x = Mathf.FloorToInt(coord.x);
     int y = Mathf.FloorToInt(coord.y);

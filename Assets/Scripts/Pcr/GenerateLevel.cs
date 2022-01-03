@@ -211,7 +211,7 @@ public class GenerateLevel {
     ConnectAllLeaves(world, leavesArray);
 
     // Spawn character
-    world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
+    world.CreateCharacter(world.GetTileAt(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2));
   }
 
 }

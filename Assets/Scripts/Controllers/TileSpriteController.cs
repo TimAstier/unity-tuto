@@ -25,8 +25,8 @@ public class TileSpriteController : MonoBehaviour {
     tileGameObjectMap = new Dictionary<Tile, GameObject>();
 
     // Create a GameObject for each of our tiles
-    for (int x = 0; x < world.Width; x++) {
-      for (int y = 0; y < world.Height; y++) {
+    for (int x = 0; x < Constants.GRID_WIDTH; x++) {
+      for (int y = 0; y < Constants.GRID_WIDTH; y++) {
         // Get the tile data
         Tile tile_data = world.GetTileAt(x, y);
 

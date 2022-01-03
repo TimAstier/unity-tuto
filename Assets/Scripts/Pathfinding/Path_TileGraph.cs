@@ -26,8 +26,8 @@ public class Path_TileGraph {
 
     nodes = new Dictionary<Tile, Path_Node<Tile>>();
 
-    for (int x = 0; x < world.Width; x++) {
-      for (int y = 0; y < world.Height; y++) {
+    for (int x = 0; x < Constants.GRID_WIDTH; x++) {
+      for (int y = 0; y < Constants.GRID_HEIGHT; y++) {
 
         Tile t = world.GetTileAt(x, y);
 
