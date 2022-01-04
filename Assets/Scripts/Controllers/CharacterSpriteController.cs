@@ -44,7 +44,7 @@ public class CharacterSpriteController : MonoBehaviour {
     char_go.transform.SetParent(this.transform, true);
 
     SpriteRenderer sr = char_go.AddComponent<SpriteRenderer>();
-    sr.sprite = characterSprites["p1_front"];
+    sr.sprite = characterSprites["Mage"];
     sr.sortingLayerName = "Characters";
   }
 

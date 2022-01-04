@@ -10,5 +10,6 @@ public class TimeController {
     } else {
       Time.timeScale = 0;
     }
+    GameEvents.current.ToggledPause(Time.timeScale);
   }
 }

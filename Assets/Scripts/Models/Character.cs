@@ -20,7 +20,7 @@ public class Character {
   Tile destTile;
   Path_AStar pathAStar;
   float movementPercentage; // Goes from 0 to 1 as we move from currTile to nextTile
-  float speed = 5f; // Tiles per second
+  float speed = Constants.CHARACTER_BASE_SPEED; // Tiles per second
   Job myJob;
 
   public Character(Tile tile) {

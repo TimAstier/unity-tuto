@@ -18,18 +18,31 @@
 - [x] Another tile type for "Empty" cells?
 - [x] Generate the base
 - [x] Fix the position of pause button
+- [x] First pixel art for characters
+- [x] Sound on pause and unpause
+- [ ] Explored tiles
+- [ ] Disallow walk into non explore tile (clicking fow)
 - [ ] BUG: Crash when moving while paused
-- [ ] Sound on pause and unpause
 - [ ] Top bar with characters to select
 - [ ] Try to run several characters
 - [ ] Create tilePath earlier to prevent firt move lag
-- [ ] Explored tiles
 - [ ] Way to run unit tests
 - [ ] Ennemies
 - [ ] Show visual on where characters intend to move
 - [ ] Cancel current move when click to move somewhere else
 - [ ] Hover on tiles to get info
 - [ ] WASD for english keyboards
+
+## Pixel art
+
+- Aseprite. See: https://www.youtube.com/watch?v=fCpalUPlhMs&ab_channel=HeartBeast
+- About pixel art: https://www.youtube.com/watch?v=o_EKrg2fIuc&ab_channel=AlvinRoe
+- https://blog.studiominiboss.com/pixelart
+
+## Others
+
+- CodeMonkey https://www.youtube.com/watch?v=waEsGu--9P8&ab_channel=CodeMonkey
+- Fire projectiles: https://www.youtube.com/watch?v=Hp0ovwSC4FE&ab_channel=CodeMonkey
 
 ## Ideas
 

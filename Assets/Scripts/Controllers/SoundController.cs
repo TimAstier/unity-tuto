@@ -3,16 +3,20 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour {
   float soundCooldown = 0;
+  public AudioSource pauseAudioSource;
+  public AudioSource playAudioSource;
 
   // Use this for initialization
   void Start() {
     GameEvents.current.onTileTypeChanged += OnTileTypeChanged;
     GameEvents.current.onFurnitureCreated += OnFurnitureCreated;
+    GameEvents.current.onToggledPause += OnToggledPause;
   }
 
   private void OnDestroy() {
     GameEvents.current.onTileTypeChanged -= OnTileTypeChanged;
     GameEvents.current.onFurnitureCreated -= OnFurnitureCreated;
+    GameEvents.current.onToggledPause -= OnToggledPause;
   }
 
   // Update is called once per frame
@@ -41,6 +45,14 @@ public class SoundController : MonoBehaviour {
 
     AudioSource.PlayClipAtPoint(ac, Camera.main.transform.position);
     soundCooldown = 0.1f;
+  }
+
+  public void OnToggledPause(float time) {
+    if (time == 0f) {
+      pauseAudioSource.Play();
+    } else if (time == 1f) {
+      playAudioSource.Play();
+    }
   }
 
 }

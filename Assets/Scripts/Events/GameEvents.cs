@@ -72,4 +72,11 @@ public class GameEvents : MonoBehaviour {
       onJobCreated(job);
     }
   }
+
+  public event Action<float> onToggledPause;
+  public void ToggledPause(float time) {
+    if (onToggledPause != null) {
+      onToggledPause(time);
+    }
+  }
 }
