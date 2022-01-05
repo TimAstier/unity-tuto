@@ -148,9 +148,11 @@ public class World {
     return result;
   }
 
-  public void UpdateTilesVisibility(Tile origin, int radius) {
+  public void UpdateTilesVisibility(Tile origin) {
     // TODO: DRY if possible
     // TODO: Any way to avoid three loops?
+
+    Debug.Log("hey");
 
     // Clear tiles
     List<Tile> clearTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);

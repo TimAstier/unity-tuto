@@ -27,6 +27,10 @@ public class WorldController : MonoBehaviour {
     // Center the Camera
     Camera.main.transform.position = new Vector3(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2, Camera.main.transform.position.z);
 
+    if (GameEvents.current == null) {
+      Debug.Log("null");
+    }
+
     GameEvents.current.onCharacterMoved += OnCharacterMoved;
   }
 
@@ -41,7 +45,7 @@ public class WorldController : MonoBehaviour {
   }
 
   void OnCharacterMoved(Character character) {
-    world.UpdateTilesVisibility(character.currTile, 1);
+    world.UpdateTilesVisibility(character.currTile);
   }
 
 }

@@ -20,20 +20,25 @@
 - [x] Fix the position of pause button
 - [x] First pixel art for characters
 - [x] Sound on pause and unpause
+- [x] New floor tile <3
 - [ ] Explored tiles
+- [ ] Show visual on where characters intend to move
+- [ ] Cancel current move when click to move somewhere else
 - [ ] Disallow walk into non explore tile (clicking fow)
+- [ ] Try follow character on move
 - [ ] BUG: Crash when moving while paused
 - [ ] Top bar with characters to select
 - [ ] Try to run several characters
 - [ ] Create tilePath earlier to prevent firt move lag
 - [ ] Way to run unit tests
 - [ ] Ennemies
-- [ ] Show visual on where characters intend to move
-- [ ] Cancel current move when click to move somewhere else
 - [ ] Hover on tiles to get info
 - [ ] WASD for english keyboards
 
 ## Pixel art
+
+- Purchase and use this asset collection:
+  https://itch.io/bundle/download/2z9xzehk7cOqsb58h3f_u6Wp36xwI7k7e2ys_3jF
 
 - Aseprite. See: https://www.youtube.com/watch?v=fCpalUPlhMs&ab_channel=HeartBeast
 - About pixel art: https://www.youtube.com/watch?v=o_EKrg2fIuc&ab_channel=AlvinRoe
