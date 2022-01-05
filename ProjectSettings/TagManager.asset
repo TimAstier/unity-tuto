@@ -50,6 +50,9 @@ TagManager:
   - name: Jobs
     uniqueID: 3830056483
     locked: 0
+  - name: Indicators
+    uniqueID: 3276116151
+    locked: 0
   - name: Characters
     uniqueID: 3795644475
     locked: 0

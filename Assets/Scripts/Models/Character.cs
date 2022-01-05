@@ -110,6 +110,7 @@ public class Character {
 
   public void SetDestination(Tile tile) {
     destTile = tile;
+    GameEvents.current.DestinationChanged(tile);
   }
 
   void OnJobEnded(Job j) {

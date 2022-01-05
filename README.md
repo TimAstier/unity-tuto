@@ -21,8 +21,8 @@
 - [x] First pixel art for characters
 - [x] Sound on pause and unpause
 - [x] New floor tile <3
-- [ ] Explored tiles
-- [ ] Show visual on where characters intend to move
+- [x] Explored tiles
+- [x] Show visual on where characters intend to move
 - [ ] Cancel current move when click to move somewhere else
 - [ ] Disallow walk into non explore tile (clicking fow)
 - [ ] Try follow character on move
@@ -34,6 +34,7 @@
 - [ ] Ennemies
 - [ ] Hover on tiles to get info
 - [ ] WASD for english keyboards
+- Investigate pathfunding in unity DOTS/ECS. See: https://www.youtube.com/watch?v=1bO1FdEThnU&ab_channel=CodeMonkey and https://www.youtube.com/watch?v=ubUPVu_DeVk&ab_channel=CodeMonkey
 
 ## Pixel art
 

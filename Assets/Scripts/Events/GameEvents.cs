@@ -79,4 +79,11 @@ public class GameEvents : MonoBehaviour {
       onToggledPause(time);
     }
   }
+
+  public event Action<Tile> onDestinationChanged;
+  public void DestinationChanged(Tile tile) {
+    if (onDestinationChanged != null) {
+      onDestinationChanged(tile);
+    }
+  }
 }

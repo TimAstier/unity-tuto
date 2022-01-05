@@ -152,8 +152,6 @@ public class World {
     // TODO: DRY if possible
     // TODO: Any way to avoid three loops?
 
-    Debug.Log("hey");
-
     // Clear tiles
     List<Tile> clearTiles = GetTilesInCircle(new Vector2Int(origin.X, origin.Y), Constants.MAX_CLEAR_VISIBILITY);
     foreach (Tile t in clearTiles) {

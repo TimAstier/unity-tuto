@@ -30,19 +30,24 @@ public class FowController : MonoBehaviour {
   // Update is called once per frame
   void Update() { }
 
-  public void UpdateVisibility(TileVisibility visibility, Vector2Int position) {
+  public void UpdateVisibility(TileVisibility visibility, bool explored, Vector2Int position) {
     if (visibility == TileVisibility.Clear) {
       fowTilemap.SetTile(new Vector3Int(position.x, position.y, 0), null);
     } else if (visibility == TileVisibility.Dim) {
       fowTilemap.SetTile(new Vector3Int(position.x, position.y, 0), dimTile);
     } else if (visibility == TileVisibility.Dark) {
-      fowTilemap.SetTile(new Vector3Int(position.x, position.y, 0), darkTile);
+      if (explored == true) {
+        // We show as Dim the tiles that are "Dark" and "Explored"
+        fowTilemap.SetTile(new Vector3Int(position.x, position.y, 0), dimTile);
+      } else {
+        fowTilemap.SetTile(new Vector3Int(position.x, position.y, 0), darkTile);
+      }
     }
   }
 
   void OnTileChanged(Tile tile) {
     FowController fc = GameObject.FindObjectOfType<FowController>();
-    fc.UpdateVisibility(tile.visibility, new Vector2Int(tile.X, tile.Y));
+    fc.UpdateVisibility(tile.visibility, tile.explored, new Vector2Int(tile.X, tile.Y));
   }
 
   void OnCharacterCreated(Character character) {

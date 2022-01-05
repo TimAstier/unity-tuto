@@ -25,6 +25,7 @@ public class Tile {
   }
 
   public TileVisibility visibility { get; protected set; } = TileVisibility.Dark;
+  public bool explored { get; protected set; } = false;
   Inventory inventory;
   public Furniture furniture { get; protected set; }
   // FIXME: This seems like a terrible way to flag if a job is pending
@@ -113,6 +114,9 @@ public class Tile {
 
   public void SetVisibility(TileVisibility visibility) {
     this.visibility = visibility;
+    if (visibility != TileVisibility.Dark && this.explored == false) {
+      this.explored = true;
+    }
     GameEvents.current.TileChanged(this);
   }
 
