@@ -86,4 +86,11 @@ public class GameEvents : MonoBehaviour {
       onDestinationChanged(tile);
     }
   }
+
+  public event Action onDestinationReached;
+  public void DestinationReached() {
+    if (onDestinationReached != null) {
+      onDestinationReached();
+    }
+  }
 }

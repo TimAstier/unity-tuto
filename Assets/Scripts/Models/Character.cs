@@ -97,6 +97,9 @@ public class Character {
 
     if (movementPercentage >= 1) {
       currTile = nextTile;
+      if (currTile == destTile) {
+        GameEvents.current.DestinationReached();
+      }
       GameEvents.current.CharacterMoved(this);
       movementPercentage = 0;
     }
@@ -109,6 +112,7 @@ public class Character {
   }
 
   public void SetDestination(Tile tile) {
+    pathAStar = null;
     destTile = tile;
     GameEvents.current.DestinationChanged(tile);
   }

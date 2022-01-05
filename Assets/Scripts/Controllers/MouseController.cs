@@ -158,7 +158,10 @@ public class MouseController : MonoBehaviour {
       int currTileY = Mathf.FloorToInt(currFramePosition.y);
       Character character = WorldController.Instance.world.characters.First();
       if (character != null) {
-        character.SetDestination(WorldController.Instance.world.GetTileAt(currTileX, currTileY));
+        Tile destTile = WorldController.Instance.world.GetTileAt(currTileX, currTileY);
+        if (destTile.explored == true) {
+          character.SetDestination(destTile);
+        }
       }
     }
   }

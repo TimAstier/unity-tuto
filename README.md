@@ -23,10 +23,9 @@
 - [x] New floor tile <3
 - [x] Explored tiles
 - [x] Show visual on where characters intend to move
-- [ ] Cancel current move when click to move somewhere else
-- [ ] Disallow walk into non explore tile (clicking fow)
+- [x] Cancel current move when click to move somewhere else
+- [x] Disallow walk into non explored tile (clicking fow)
 - [ ] Try follow character on move
-- [ ] BUG: Crash when moving while paused
 - [ ] Top bar with characters to select
 - [ ] Try to run several characters
 - [ ] Create tilePath earlier to prevent firt move lag
